@@ -1,13 +1,18 @@
 /**
  * Easter egg: hover any [data-code-snippet] region for 1.5s → glass tooltip with a curated code peek.
  * Tooltip hides on the next pointer move; still inside the same region restarts the dwell timer.
+ * If the code block overflows, after 750ms it smooth-scrolls to the bottom, waits 750ms, then to the top.
  * Disabled when prefers-reduced-motion: reduce. Also clears on leave, scroll, or Escape.
  */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { CODE_SNIPPET_MAP } from "../../data/codeSnippets.js";
 import "./EasterEggTooltip.css";
 
 const HOVER_MS = 1500;
+/** Pause before auto-scroll; dwell at bottom before returning to top */
+const AUTO_SCROLL_PHASE_MS = 750;
+/** If `scrollend` never fires (older browsers), assume smooth scroll finished */
+const SCROLL_END_FALLBACK_MS = 1200;
 
 function EasterEggTooltip() {
   const [open, setOpen] = useState(false);
@@ -121,6 +126,96 @@ function EasterEggTooltip() {
     };
   }, []);
 
+  const preRef = useRef(null);
+  const scrollEndHandlerRef = useRef(null);
+
+  useLayoutEffect(() => {
+    if (!open || !snippet) return undefined;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+
+    let alive = true;
+    const timeouts = [];
+    const pushTimeout = (fn, ms) => {
+      const id = window.setTimeout(() => {
+        if (alive) fn();
+      }, ms);
+      timeouts.push(id);
+      return id;
+    };
+
+    const clearPhase = () => {
+      alive = false;
+      timeouts.forEach((id) => clearTimeout(id));
+      timeouts.length = 0;
+      const node = preRef.current;
+      const h = scrollEndHandlerRef.current;
+      if (node && h) {
+        node.removeEventListener("scrollend", h);
+        scrollEndHandlerRef.current = null;
+      }
+    };
+
+    const run = () => {
+      if (!alive) return;
+      const el = preRef.current;
+      if (!el) return;
+      el.scrollTop = 0;
+      const maxScroll = el.scrollHeight - el.clientHeight;
+      if (maxScroll < 2) return;
+
+      pushTimeout(() => {
+        if (!alive) return;
+        const node = preRef.current;
+        if (!node) return;
+        const max = node.scrollHeight - node.clientHeight;
+        if (max < 2) return;
+
+        let settledBottom = false;
+        let bottomFallbackId = null;
+        const afterBottomReached = () => {
+          if (!alive || settledBottom) return;
+          settledBottom = true;
+          if (bottomFallbackId != null) {
+            clearTimeout(bottomFallbackId);
+            bottomFallbackId = null;
+          }
+          const n = preRef.current;
+          const handler = scrollEndHandlerRef.current;
+          if (n && handler) {
+            n.removeEventListener("scrollend", handler);
+            scrollEndHandlerRef.current = null;
+          }
+
+          pushTimeout(() => {
+            if (!alive) return;
+            preRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+          }, AUTO_SCROLL_PHASE_MS);
+        };
+
+        const onScrollEnd = () => afterBottomReached();
+        scrollEndHandlerRef.current = onScrollEnd;
+        node.addEventListener("scrollend", onScrollEnd, { once: true });
+        bottomFallbackId = window.setTimeout(() => {
+          if (alive) afterBottomReached();
+        }, SCROLL_END_FALLBACK_MS);
+        timeouts.push(bottomFallbackId);
+
+        node.scrollTo({ top: max, behavior: "smooth" });
+      }, AUTO_SCROLL_PHASE_MS);
+    };
+
+    let innerRaf = 0;
+    const outerRaf = requestAnimationFrame(() => {
+      innerRaf = requestAnimationFrame(run);
+    });
+
+    return () => {
+      cancelAnimationFrame(outerRaf);
+      cancelAnimationFrame(innerRaf);
+      clearPhase();
+    };
+  }, [open, snippet]);
+
   if (!open || !snippet) return null;
 
   return (
@@ -131,7 +226,7 @@ function EasterEggTooltip() {
       aria-live="polite"
     >
       <p className="easter-egg-tooltip__eyebrow">Peek under the hood</p>
-      <pre className="easter-egg-tooltip__pre">
+      <pre ref={preRef} className="easter-egg-tooltip__pre">
         <code>{snippet}</code>
       </pre>
     </div>
