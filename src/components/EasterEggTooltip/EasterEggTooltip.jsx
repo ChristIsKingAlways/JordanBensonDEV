@@ -1,6 +1,7 @@
 /**
  * Easter egg: hover any [data-code-snippet] region for 1.5s → glass tooltip with a curated code peek.
- * Disabled when prefers-reduced-motion: reduce. Clears on leave, scroll, or Escape.
+ * Tooltip hides on the next pointer move; still inside the same region restarts the dwell timer.
+ * Disabled when prefers-reduced-motion: reduce. Also clears on leave, scroll, or Escape.
  */
 import { useEffect, useRef, useState } from "react";
 import { CODE_SNIPPET_MAP } from "../../data/codeSnippets.js";
@@ -14,6 +15,7 @@ function EasterEggTooltip() {
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const hostRef = useRef(null);
   const timerRef = useRef(null);
+  const openRef = useRef(false);
   const lastPointerRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -28,13 +30,47 @@ function EasterEggTooltip() {
     };
 
     const hide = () => {
+      openRef.current = false;
       clearTimer();
       hostRef.current = null;
       setOpen(false);
       setSnippet("");
     };
 
+    const scheduleReveal = (host) => {
+      clearTimer();
+      hostRef.current = host;
+      timerRef.current = window.setTimeout(() => {
+        const id = host.getAttribute("data-code-snippet");
+        const text = id ? CODE_SNIPPET_MAP[id] : null;
+        if (!text || hostRef.current !== host) return;
+        const { x, y } = lastPointerRef.current;
+        const pad = 16;
+        const estW = 320;
+        const left = Math.min(Math.max(pad, x - estW / 2), window.innerWidth - estW - pad);
+        const top = Math.min(y + 14, window.innerHeight - pad - 120);
+        openRef.current = true;
+        setSnippet(text);
+        setPos({ x: left, y: Math.max(pad, top) });
+        setOpen(true);
+      }, HOVER_MS);
+    };
+
     const onMouseMove = (e) => {
+      if (openRef.current) {
+        const h = hostRef.current;
+        openRef.current = false;
+        setOpen(false);
+        setSnippet("");
+        clearTimer();
+        hostRef.current = null;
+        const under = e.target?.closest?.("[data-code-snippet]");
+        if (h && under === h) {
+          lastPointerRef.current = { x: e.clientX, y: e.clientY };
+          scheduleReveal(h);
+        }
+        return;
+      }
       const host = hostRef.current;
       if (!host || !host.contains(e.target)) return;
       lastPointerRef.current = { x: e.clientX, y: e.clientY };
@@ -50,21 +86,7 @@ function EasterEggTooltip() {
       }
       if (hostRef.current === host) return;
 
-      clearTimer();
-      hostRef.current = host;
-      timerRef.current = window.setTimeout(() => {
-        const id = host.getAttribute("data-code-snippet");
-        const text = id ? CODE_SNIPPET_MAP[id] : null;
-        if (!text || hostRef.current !== host) return;
-        const { x, y } = lastPointerRef.current;
-        const pad = 16;
-        const estW = 320;
-        const left = Math.min(Math.max(pad, x - estW / 2), window.innerWidth - estW - pad);
-        const top = Math.min(y + 14, window.innerHeight - pad - 120);
-        setSnippet(text);
-        setPos({ x: left, y: Math.max(pad, top) });
-        setOpen(true);
-      }, HOVER_MS);
+      scheduleReveal(host);
     };
 
     const onMouseOut = (e) => {
