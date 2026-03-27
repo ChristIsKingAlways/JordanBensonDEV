@@ -78,6 +78,24 @@ export const projects = [
     url: "https://authoship.io/",
     imageAlt: "Preview of Authoship",
   },
+  {
+    title: "Churchee",
+    category: "Church Community Platform",
+    url: "https://www.churchee.io/",
+    imageAlt: "Preview of Churchee",
+  },
+  {
+    title: "Axis Motors",
+    category: "Premium Auto Inventory",
+    url: "https://axis-motors.vercel.app/",
+    imageAlt: "Preview of Axis Motors",
+  },
+  {
+    title: "Daily Quib",
+    category: "News & Culture",
+    url: "https://daily-quib.vercel.app/",
+    imageAlt: "Preview of Daily Quib",
+  },
 ];
 
 export const contactCopy = {
