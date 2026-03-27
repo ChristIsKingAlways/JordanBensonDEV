@@ -5,7 +5,7 @@
 
 export const siteMeta = {
   name: "Jordan Benson",
-  /** Browser tab / OG — matches public site */
+  /** Browser tab / OG; also parsed for header brand (“Name | Role”) */
   title: "Jordan Benson | Developer",
   description:
     "Developer and entrepreneur focused on building thoughtful, scalable solutions for the modern web.",

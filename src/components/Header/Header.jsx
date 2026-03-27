@@ -6,9 +6,16 @@ import { useState, useEffect } from "react";
 import { navLinks, siteMeta } from "../../data/portfolioContent.js";
 import "./Header.css";
 
+/** Split "Name | Role" from siteMeta.title for nav styling */
+function parseNavTitle(title) {
+  const parts = title.split(/\s*\|\s*/);
+  return { name: parts[0]?.trim() || "", tag: parts[1]?.trim() || "" };
+}
+
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { name: brandName, tag: brandTag } = parseNavTitle(siteMeta.title);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -28,7 +35,16 @@ function Header() {
     <header className={barMods}>
       <nav className="site-header__inner" aria-label="Primary">
         <a className="site-header__brand" href="#home" onClick={() => setMenuOpen(false)}>
-          {siteMeta.name}
+          <span className="site-header__brand-name">{brandName}</span>
+          {brandTag ? (
+            <>
+              <span className="site-header__brand-sep" aria-hidden="true">
+                {" "}
+                |{" "}
+              </span>
+              <span className="site-header__brand-tag">{brandTag}</span>
+            </>
+          ) : null}
         </a>
 
         <button
