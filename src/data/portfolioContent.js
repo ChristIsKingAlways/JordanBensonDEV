@@ -39,20 +39,11 @@ export const aboutParagraphs = [
   "I don't come from a traditional developer path—I come from hands-on experience. I've spent years troubleshooting, learning how systems break, and more importantly, how to fix them. That perspective carries into everything I build today: practical, user-focused, and built to work in the real world.",
   "Right now, I'm actively developing projects that combine modern web technologies with automation and AI. From building platforms like IronDisciple to working with tools like Supabase, Vercel, and API integrations, I'm focused on creating solutions that are not just functional—but meaningful.",
   "I'm especially interested in building things that help people—whether that's through better user experiences, smarter systems, or tools that solve real problems.",
-  "I'm not just learning to code. I'm building, testing, and improving every day.",
+  "I'm not just writing code. I'm building, testing, and improving every day.",
 ];
 
-/** Skill chips shown under About (single row wrap — same stack list as public site). */
-export const skillTags = [
-  "React",
-  "Next.js",
-  "JavaScript",
-  "HTML & CSS",
-  "Supabase",
-  "Vercel",
-  "API design",
-  "Automation",
-];
+/** Skill chips shown under About (single row wrap). */
+export const skillTags = ["React", "Next.js", "JavaScript", "HTML & CSS"];
 
 /**
  * Build Microlink screenshot URL (no API key; embed mode returns image URL).
