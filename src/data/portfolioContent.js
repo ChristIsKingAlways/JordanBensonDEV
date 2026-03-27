@@ -1,6 +1,6 @@
 /**
  * Central copy + project list — aligned with jordanbensondev.com content.
- * Project screenshots use Microlink’s public screenshot embed (same approach as the live Next.js site).
+ * Project screenshots use Microlink’s public screenshot embed (same approach as many live portfolio sites).
  */
 
 export const siteMeta = {
@@ -43,7 +43,7 @@ export const aboutParagraphs = [
 ];
 
 /** Skill chips shown under About (single row wrap). */
-export const skillTags = ["React", "Next.js", "JavaScript", "HTML & CSS"];
+export const skillTags = ["React", "JavaScript", "HTML & CSS"];
 
 /**
  * Build Microlink screenshot URL (no API key; embed mode returns image URL).
