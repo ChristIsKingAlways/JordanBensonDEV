@@ -1,20 +1,34 @@
 /**
  * Block: site-header
- * Sticky top bar with logo text and desktop nav; mobile uses a toggle (state + aria).
+ * Fixed nav — Work / About / Contact + mobile “Contact”; bar style matches scroll state (see public site).
  */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { navLinks, siteMeta } from "../../data/portfolioContent.js";
 import "./Header.css";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const barMods = [
+    "site-header",
+    scrolled ? "site-header--scrolled" : "site-header--expanded",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
-    <header className="site-header">
-      <div className="site-header__inner">
-        <a className="site-header__brand" href="#top" onClick={() => setMenuOpen(false)}>
-          <span className="site-header__brand-mark">{siteMeta.name}</span>
-          <span className="site-header__brand-role">{siteMeta.role}</span>
+    <header className={barMods}>
+      <nav className="site-header__inner" aria-label="Primary">
+        <a className="site-header__brand" href="#home" onClick={() => setMenuOpen(false)}>
+          {siteMeta.name}
         </a>
 
         <button
@@ -28,10 +42,9 @@ function Header() {
           <span className="site-header__menu-icon" aria-hidden />
         </button>
 
-        <nav
+        <div
           id="site-header-nav"
-          className={`site-header__nav ${menuOpen ? "site-header__nav--open" : ""}`}
-          aria-label="Primary"
+          className={`site-header__nav-wrap ${menuOpen ? "site-header__nav-wrap--open" : ""}`}
         >
           <ul className="site-header__list">
             {navLinks.map(({ id, label }) => (
@@ -46,8 +59,12 @@ function Header() {
               </li>
             ))}
           </ul>
-        </nav>
-      </div>
+        </div>
+
+        <a className="site-header__mobile-cta" href="#contact" onClick={() => setMenuOpen(false)}>
+          Contact
+        </a>
+      </nav>
     </header>
   );
 }

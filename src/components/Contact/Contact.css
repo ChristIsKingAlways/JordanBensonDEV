@@ -1,72 +1,198 @@
 /**
  * BEM block: contact
- * Single glass panel for CTA + social row.
+ * .glass-form — elevated glass panel for the form (utility class name matches live site naming).
  */
 
 .contact {
-  padding: var(--space-3xl) var(--space-md);
+  position: relative;
+  z-index: 1;
+  padding-block: var(--space-section);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .contact__inner {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: var(--space-xl) var(--space-xl);
-  border-radius: var(--radius-xl);
-  background: var(--glass-fill-strong);
-  border: 1px solid var(--glass-border-bright);
-  box-shadow: var(--glass-inner-glow), var(--glass-shadow);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  width: var(--container);
+  margin-inline: auto;
+}
+
+.contact__copy {
+  max-width: 42rem;
+}
+
+.contact__eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-faint);
+  margin-block-end: var(--space-md);
 }
 
 .contact__title {
-  margin: 0 0 var(--space-md);
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  font-weight: 700;
+  font-size: clamp(1.75rem, 2vw + 1rem, 2.25rem);
+  font-weight: 500;
+  margin-block-end: var(--space-md);
   letter-spacing: -0.02em;
 }
 
-.contact__text {
-  margin: 0 0 var(--space-lg);
-  max-width: 36rem;
-  color: var(--color-text-muted);
+.contact__sub {
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  margin-block-end: var(--space-2xl);
+  line-height: 1.6;
 }
 
-.contact__email {
+.contact__mail {
   display: inline-block;
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--color-accent);
+  font-size: clamp(1.35rem, 2vw + 1rem, 1.85rem);
+  font-weight: 500;
+  color: var(--text);
   text-decoration: none;
+  margin-block-end: var(--space-2xl);
+  position: relative;
 }
 
-.contact__email:hover {
-  text-decoration: underline;
+.contact__mail::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.15em;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-copper));
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s var(--ease-out-expo);
 }
 
-.contact__socials {
+.contact__mail:hover::after,
+.contact__mail:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.glass-form {
+  padding: var(--space-xl);
+  border-radius: 1.25rem;
+  background: var(--glass-bg-elevated);
+  backdrop-filter: var(--glass-blur) var(--glass-saturate);
+  -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+  border: 1px solid var(--glass-stroke);
+  box-shadow: var(--glass-inset), var(--glass-shadow);
+}
+
+.contact__form {
+  display: grid;
+  gap: var(--space-lg);
+  margin-block-start: var(--space-xl);
+  max-width: 36rem;
+}
+
+.contact__field {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-md);
-  margin: var(--space-xl) 0 0;
-  padding: 0;
-  list-style: none;
+  flex-direction: column;
+  gap: var(--space-sm);
 }
 
-.contact__social-link {
-  padding: var(--space-sm) var(--space-md);
-  border-radius: 999px;
-  color: var(--color-text);
+.contact__label {
+  font-size: 0.8125rem;
   font-weight: 600;
-  text-decoration: none;
-  background: var(--glass-fill);
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: border-color 0.2s, color 0.2s;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
-.contact__social-link:hover {
-  color: var(--color-accent);
-  border-color: rgba(100, 210, 255, 0.35);
+.contact__input,
+.contact__textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-stroke);
+  background: color-mix(in srgb, var(--bg-deep) 55%, transparent);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact__input:focus-visible,
+.contact__textarea:focus-visible {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border-subtle));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.contact__textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.contact__hint {
+  font-size: 0.8125rem;
+  color: var(--text-faint);
+}
+
+.contact__error {
+  color: color-mix(in srgb, #f87171 85%, var(--text));
+  font-size: 0.875rem;
+}
+
+.contact__status {
+  font-size: 0.9375rem;
+  padding: var(--space-md);
+  border-radius: var(--radius-sm);
+}
+
+.contact__status--ok {
+  background: color-mix(in srgb, #22c55e 18%, transparent);
+  color: color-mix(in srgb, #86efac 90%, var(--text));
+  border: 1px solid color-mix(in srgb, #22c55e 35%, transparent);
+}
+
+.contact__status--err {
+  background: color-mix(in srgb, #ef4444 14%, transparent);
+  color: color-mix(in srgb, #fca5a5 92%, var(--text));
+  border: 1px solid color-mix(in srgb, #ef4444 30%, transparent);
+}
+
+.contact__submit {
+  justify-self: start;
+  padding: 0.9rem 1.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--bg-deep);
+  background: linear-gradient(135deg, var(--accent), var(--accent-hot));
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: transform 0.25s var(--ease-out-expo), filter 0.25s ease;
+}
+
+.contact__submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .contact__input,
+  .contact__textarea,
+  .glass-form {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .contact__input,
+  .contact__textarea {
+    background: color-mix(in srgb, var(--bg-deep) 92%, #fff);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .contact__input,
+  .contact__textarea,
+  .glass-form {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: color-mix(in srgb, var(--bg-deep) 90%, #fff);
+  }
 }

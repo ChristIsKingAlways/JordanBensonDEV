@@ -1,12 +1,12 @@
 /**
- * Root layout: composes all page sections in order.
- * Section ids match nav hash links (#about, #skills, etc.).
+ * Root layout — section order matches jordanbensondev.com: Home, Work, About, Contact, Footer.
  */
+import ScrollProgress from "./components/ScrollProgress/ScrollProgress.jsx";
+import ParticleField from "./components/ParticleField/ParticleField.jsx";
 import Header from "./components/Header/Header.jsx";
 import Hero from "./components/Hero/Hero.jsx";
-import About from "./components/About/About.jsx";
-import Skills from "./components/Skills/Skills.jsx";
 import Projects from "./components/Projects/Projects.jsx";
+import About from "./components/About/About.jsx";
 import Contact from "./components/Contact/Contact.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import "./App.css";
@@ -14,17 +14,16 @@ import "./App.css";
 function App() {
   return (
     <div className="app">
-      {/* Decorative mesh behind glass panels (Apple-style wallpaper blur look) */}
-      <div className="app__mesh" aria-hidden="true" />
-      <a className="app__skip" href="#main">
+      <ParticleField />
+      <ScrollProgress />
+      <a className="app__skip" href="#main-content">
         Skip to main content
       </a>
       <Header />
-      <main id="main" className="app__main" tabIndex={-1}>
+      <main id="main-content" className="app__main" tabIndex={-1}>
         <Hero />
-        <About />
-        <Skills />
         <Projects />
+        <About />
         <Contact />
       </main>
       <Footer />

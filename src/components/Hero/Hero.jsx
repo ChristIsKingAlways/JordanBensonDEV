@@ -1,27 +1,28 @@
 /**
  * Block: hero
- * First screen: name, role, short pitch, CTA to projects/contact.
+ * Full-viewport intro + glass copy card — headline split across two lines like jordanbensondev.com.
  */
-import { siteMeta } from "../../data/portfolioContent.js";
+import { hero } from "../../data/portfolioContent.js";
 import "./Hero.css";
 
 function Hero() {
   return (
-    <section id="top" className="hero" aria-labelledby="hero-title">
+    <section id="home" className="hero" aria-labelledby="hero-heading">
       <div className="hero__inner">
-        <p className="hero__eyebrow">Portfolio</p>
-        <h1 id="hero-title" className="hero__title">
-          {siteMeta.name}
-        </h1>
-        <p className="hero__role">{siteMeta.role}</p>
-        <p className="hero__tagline">{siteMeta.tagline}</p>
-        <div className="hero__actions">
-          <a className="hero__btn hero__btn--primary" href="#projects">
-            View projects
-          </a>
-          <a className="hero__btn hero__btn--ghost" href="#contact">
-            Get in touch
-          </a>
+        <div className="hero__copy hero__copy--animated">
+          <h1 id="hero-heading" className="hero__headline">
+            <span className="hero__line">{hero.line1}</span>
+            <span className="hero__line hero__line--muted">{hero.line2}</span>
+          </h1>
+          <p className="hero__lede">{hero.lede}</p>
+          <div className="hero__actions">
+            <a className="hero__btn hero__btn--primary" href="#projects">
+              View Work
+            </a>
+            <a className="hero__btn hero__btn--secondary" href="#contact">
+              Get in touch →
+            </a>
+          </div>
         </div>
       </div>
     </section>

@@ -1,40 +1,22 @@
 /**
- * Global layer: design tokens, reset-ish rules, and typography.
- * Includes Apple-inspired “glass” tokens (frosted panels + mesh-friendly colors).
- * BEM lives in component CSS files; this file only sets shared foundations.
+ * Global tokens + base — ported to match jordanbensondev.com (Inter, gold accent, dark glass).
+ * Original site uses CSS layers; we keep one file for Vite simplicity.
  */
 
 :root {
-  /* Base mesh backdrop — deep tones so frosted glass reads clearly */
-  --color-bg: #050810;
-  --color-bg-mid: #0c1222;
-  --color-text: #f4f7fb;
-  --color-text-muted: rgba(244, 247, 251, 0.65);
-  --color-accent: #64d2ff;
-  --color-accent-soft: #a78bfa;
-  --color-accent-dim: rgba(100, 210, 255, 0.12);
-  --color-mesh-a: #1a1f3a;
-  --color-mesh-b: #0d2137;
-  --color-mesh-c: #1a0f2e;
-
-  /* Glass surfaces (light frost on dark mesh — macOS / iOS control-center vibe) */
-  --glass-fill: rgba(255, 255, 255, 0.06);
-  --glass-fill-strong: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.14);
-  --glass-border-bright: rgba(255, 255, 255, 0.22);
-  --glass-highlight: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(255, 255, 255, 0) 50%
-  );
-  --glass-blur: 28px;
-  --glass-saturate: 1.75;
-  --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-  --glass-inner-glow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
-
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", monospace;
-
+  --font-sans: "Inter", system-ui, sans-serif;
+  --bg-deep: #0a0f1a;
+  --bg-elevated: color-mix(in srgb, var(--bg-deep) 92%, #fff);
+  --surface: color-mix(in srgb, #fff 6%, var(--bg-deep));
+  --text: #f8fafc;
+  --text-muted: color-mix(in srgb, var(--text) 55%, transparent);
+  --text-faint: color-mix(in srgb, var(--text) 32%, transparent);
+  --accent: #d4af37;
+  --accent-hot: #f0d875;
+  --accent-copper: #b87333;
+  --border-subtle: color-mix(in srgb, #fff 8%, transparent);
+  --radius-sm: 0.5rem;
+  --radius-full: 9999px;
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
@@ -42,23 +24,25 @@
   --space-xl: 2rem;
   --space-2xl: 3rem;
   --space-3xl: 4rem;
+  --space-section: clamp(4rem, 12vw, 10rem);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration: 0.55s;
+  --header-height: 4.5rem;
+  --container: min(72rem, 100% - clamp(1.5rem, 5vw, 3rem));
+  --scroll-pad-top: var(--header-height);
 
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
-  --max-width: 72rem;
-  --header-height: 4rem;
-}
-
-/* Solid-ish fallback when OS “reduce transparency” is on (still readable, less blur) */
-@media (prefers-reduced-transparency: reduce) {
-  :root {
-    --glass-fill: rgba(28, 32, 48, 0.92);
-    --glass-fill-strong: rgba(32, 38, 58, 0.95);
-    --glass-blur: 4px;
-    --glass-saturate: 1;
-  }
+  --glass-bg: color-mix(in srgb, var(--bg-deep) 42%, transparent);
+  --glass-bg-elevated: color-mix(in srgb, var(--bg-deep) 58%, transparent);
+  --glass-bg-subtle: color-mix(in srgb, var(--bg-deep) 30%, transparent);
+  --glass-stroke: color-mix(in srgb, #fff 10%, transparent);
+  --glass-stroke-bright: color-mix(in srgb, #fff 16%, transparent);
+  --glass-blur: blur(32px);
+  --glass-blur-nav: blur(40px);
+  --glass-blur-tight: blur(20px);
+  --glass-saturate: saturate(180%);
+  --glass-shadow: 0 16px 48px color-mix(in srgb, #000 48%, transparent);
+  --glass-shadow-soft: 0 8px 28px color-mix(in srgb, #000 38%, transparent);
+  --glass-inset: inset 0 1px 0 var(--glass-stroke-bright);
 }
 
 *,
@@ -67,8 +51,14 @@
   box-sizing: border-box;
 }
 
+* {
+  margin: 0;
+}
+
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--scroll-pad-top);
+  color-scheme: dark;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -78,28 +68,48 @@ html {
 }
 
 body {
-  margin: 0;
-  min-height: 100vh;
+  min-height: 100dvh;
+  line-height: 1.5;
   font-family: var(--font-sans);
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--color-text);
-  background-color: var(--color-bg);
+  background-color: var(--bg-deep);
+  background-image:
+    radial-gradient(
+      ellipse 120% 80% at 50% -30%,
+      color-mix(in srgb, var(--accent) 12%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 80% 50% at 100% 50%,
+      color-mix(in srgb, var(--accent-copper) 6%, transparent),
+      transparent 45%
+    );
+  color: var(--text);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 #root {
-  min-height: 100vh;
-}
-
-/* Focus visible for keyboard users */
-:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 3px;
+  min-height: 100dvh;
 }
 
 img {
   max-width: 100%;
   height: auto;
   display: block;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
 }

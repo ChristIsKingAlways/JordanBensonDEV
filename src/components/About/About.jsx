@@ -1,23 +1,33 @@
 /**
  * Block: about
- * Short bio — pulls paragraphs from portfolioContent.js.
+ * Two-column layout on large screens — intro + lead left, body + skill tags right (matches public site).
  */
-import { aboutParagraphs } from "../../data/portfolioContent.js";
+import { aboutIntro, aboutParagraphs, skillTags } from "../../data/portfolioContent.js";
 import "./About.css";
 
 function About() {
   return (
-    <section id="about" className="about" aria-labelledby="about-title">
+    <section id="about" className="about" aria-labelledby="about-lead">
       <div className="about__inner">
-        <h2 id="about-title" className="about__title">
-          About
-        </h2>
+        <div className="about__intro">
+          <p className="about__eyebrow">{aboutIntro.eyebrow}</p>
+          <h2 id="about-lead" className="about__lead">
+            {aboutIntro.lead}
+          </h2>
+        </div>
         <div className="about__body">
           {aboutParagraphs.map((text, i) => (
             <p key={i} className="about__text">
               {text}
             </p>
           ))}
+          <ul className="about__skills">
+            {skillTags.map((tag) => (
+              <li key={tag} className="about__skill-tag">
+                {tag}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

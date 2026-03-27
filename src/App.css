@@ -1,61 +1,38 @@
 /**
  * Block: app
- * __mesh: fixed gradient “wallpaper” blurred visually by glass layers on top.
- * Page shell — skip link, main landmark, stacking context for glass UI.
+ * Layers content above fixed particle canvas (z-index).
  */
 
 .app {
   position: relative;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  isolation: isolate;
 }
 
-/* Soft color blobs + vignette — evokes Apple marketing / Big Sur style backdrops */
-.app__mesh {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-color: var(--color-bg);
-  background-image:
-    radial-gradient(ellipse 120% 80% at 10% 10%, rgba(100, 210, 255, 0.22), transparent 45%),
-    radial-gradient(ellipse 100% 70% at 90% 20%, rgba(167, 139, 250, 0.2), transparent 50%),
-    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(56, 189, 248, 0.12), transparent 55%),
-    radial-gradient(ellipse 70% 50% at 70% 60%, rgba(99, 102, 241, 0.08), transparent 45%);
-}
-
-.app__mesh::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(5, 8, 16, 0.65));
-}
-
-.app > *:not(.app__mesh) {
-  position: relative;
-  z-index: 1;
-}
-
-/* Skip link: solid for contrast (not glass) */
 .app__skip {
   position: absolute;
-  left: -9999px;
-  z-index: 100;
+  left: var(--space-md);
+  top: var(--space-md);
+  z-index: 200;
   padding: var(--space-sm) var(--space-md);
-  background: var(--color-accent);
-  color: var(--color-bg);
+  background: var(--text);
+  color: var(--bg-deep);
+  font-size: 0.875rem;
   font-weight: 600;
+  text-decoration: none;
   border-radius: var(--radius-sm);
+  transform: translateY(-200%);
+  transition: transform var(--duration) var(--ease-out-expo);
 }
 
 .app__skip:focus {
-  left: var(--space-md);
-  top: var(--space-md);
+  transform: translateY(0);
 }
 
 .app__main {
   flex: 1;
+  position: relative;
+  z-index: 1;
   outline: none;
 }

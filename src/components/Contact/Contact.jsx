@@ -1,34 +1,134 @@
 /**
  * Block: contact
- * Email mailto + social list from portfolioContent.js.
+ * Form + mail link — public site uses server validation; here we validate client-side only (see portfolioContent formHint).
  */
-import { siteMeta } from "../../data/portfolioContent.js";
+import { useState } from "react";
+import { siteMeta, contactCopy } from "../../data/portfolioContent.js";
 import "./Contact.css";
 
 function Contact() {
   const mailHref = `mailto:${siteMeta.email}`;
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState(null);
+
+  const validate = () => {
+    const e = {};
+    if (!name.trim()) e.name = "Please enter your name.";
+    if (!email.trim()) e.email = "Please enter your email.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) e.email = "Enter a valid email.";
+    if (!message.trim()) e.message = "Please enter a message.";
+    return e;
+  };
+
+  const onSubmit = (ev) => {
+    ev.preventDefault();
+    const e = validate();
+    setErrors(e);
+    if (Object.keys(e).length > 0) {
+      setStatus({ type: "err", text: "Please fix the fields below." });
+      return;
+    }
+    setStatus({
+      type: "ok",
+      text: "Thanks — looks good. Use the email above or wire this form to your API (e.g. Formspree) to send for real.",
+    });
+    setName("");
+    setEmail("");
+    setMessage("");
+  };
 
   return (
     <section id="contact" className="contact" aria-labelledby="contact-title">
       <div className="contact__inner">
-        <h2 id="contact-title" className="contact__title">
-          Contact
-        </h2>
-        <p className="contact__text">
-          Want to collaborate or chat about a role? Send an email — I will get back to you as soon as I can.
-        </p>
-        <a className="contact__email" href={mailHref}>
-          {siteMeta.email}
-        </a>
-        <ul className="contact__socials">
-          {siteMeta.social.map(({ label, url }) => (
-            <li key={label} className="contact__social-item">
-              <a className="contact__social-link" href={url} target="_blank" rel="noopener noreferrer">
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <div className="contact__copy">
+          <p className="contact__eyebrow">{contactCopy.eyebrow}</p>
+          <h2 id="contact-title" className="contact__title">
+            {contactCopy.title}
+          </h2>
+          <p className="contact__sub">{contactCopy.sub}</p>
+          <a className="contact__mail" href={mailHref}>
+            {siteMeta.email}
+          </a>
+        </div>
+
+        <form className="contact__form glass-form" onSubmit={onSubmit} noValidate>
+          <div className="contact__field">
+            <label className="contact__label" htmlFor="contact-name">
+              Name
+            </label>
+            <input
+              id="contact-name"
+              className="contact__input"
+              type="text"
+              name="name"
+              autoComplete="name"
+              value={name}
+              onChange={(ev) => setName(ev.target.value)}
+              aria-invalid={!!errors.name}
+            />
+            {errors.name ? (
+              <p className="contact__error" role="alert">
+                {errors.name}
+              </p>
+            ) : null}
+          </div>
+          <div className="contact__field">
+            <label className="contact__label" htmlFor="contact-email">
+              Email
+            </label>
+            <input
+              id="contact-email"
+              className="contact__input"
+              type="email"
+              name="email"
+              autoComplete="email"
+              value={email}
+              onChange={(ev) => setEmail(ev.target.value)}
+              aria-invalid={!!errors.email}
+            />
+            {errors.email ? (
+              <p className="contact__error" role="alert">
+                {errors.email}
+              </p>
+            ) : null}
+          </div>
+          <div className="contact__field">
+            <label className="contact__label" htmlFor="contact-message">
+              Message
+            </label>
+            <textarea
+              id="contact-message"
+              className="contact__textarea"
+              name="message"
+              rows={5}
+              value={message}
+              onChange={(ev) => setMessage(ev.target.value)}
+              aria-invalid={!!errors.message}
+            />
+            {errors.message ? (
+              <p className="contact__error" role="alert">
+                {errors.message}
+              </p>
+            ) : null}
+          </div>
+          <p className="contact__hint">{contactCopy.formHint}</p>
+          {status ? (
+            <p
+              className={
+                status.type === "ok" ? "contact__status contact__status--ok" : "contact__status contact__status--err"
+              }
+              role="status"
+            >
+              {status.text}
+            </p>
+          ) : null}
+          <button type="submit" className="contact__submit">
+            Send message
+          </button>
+        </form>
       </div>
     </section>
   );
