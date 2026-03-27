@@ -42,8 +42,15 @@ export const aboutParagraphs = [
   "I'm not just writing code. I'm building, testing, and improving every day.",
 ];
 
-/** Skill chips shown under About (single row wrap). */
-export const skillTags = ["React", "JavaScript", "HTML & CSS"];
+/**
+ * Skill chips under About — label + logo file(s) in /public/skills/ (Simple Icons, CC0).
+ * Add `icon` for one file, or `icons: ["a.svg","b.svg"]` for combined chips.
+ */
+export const skillTags = [
+  { label: "React", icon: "react.svg" },
+  { label: "JavaScript", icon: "javascript.svg" },
+  { label: "HTML & CSS", icons: ["html5.svg", "css3.svg"] },
+];
 
 /**
  * Build Microlink screenshot URL (no API key; embed mode returns image URL).

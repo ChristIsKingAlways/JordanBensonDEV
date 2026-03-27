@@ -25,8 +25,22 @@ function About() {
               ))}
               <ul className="about__skills">
                 {skillTags.map((tag) => (
-                  <li key={tag} className="about__skill-tag">
-                    {tag}
+                  <li key={tag.label} className="about__skill-tag">
+                    <span className="about__skill-tag-icons" aria-hidden="true">
+                      {(tag.icons ?? [tag.icon]).map((file) => (
+                        <img
+                          key={file}
+                          className="about__skill-icon"
+                          src={`/skills/${file}`}
+                          alt=""
+                          width={22}
+                          height={22}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      ))}
+                    </span>
+                    <span className="about__skill-tag-label">{tag.label}</span>
                   </li>
                 ))}
               </ul>
