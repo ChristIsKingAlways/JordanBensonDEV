@@ -47,7 +47,7 @@ export const skillTags = ["React", "Next.js", "JavaScript", "HTML & CSS"];
 
 /**
  * Build Microlink screenshot URL (no API key; embed mode returns image URL).
- * waitForTimeout: ms to wait on the target page before capture (balance: SPAs vs Microlink latency).
+ * waitForTimeout: ms to wait before screenshot (capped at 1.5s for fast previews).
  * @param {string} pageUrl — live project URL
  */
 export function microlinkScreenshotUrl(pageUrl) {
@@ -56,7 +56,7 @@ export function microlinkScreenshotUrl(pageUrl) {
     screenshot: "true",
     meta: "false",
     embed: "screenshot.url",
-    waitForTimeout: "5000",
+    waitForTimeout: "1500",
   });
   return `https://api.microlink.io/?${q.toString()}`;
 }
