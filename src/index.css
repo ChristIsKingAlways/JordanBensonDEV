@@ -1,21 +1,39 @@
 /**
  * Global layer: design tokens, reset-ish rules, and typography.
+ * Includes Apple-inspired “glass” tokens (frosted panels + mesh-friendly colors).
  * BEM lives in component CSS files; this file only sets shared foundations.
  */
 
 :root {
-  /* Color system — dark UI, sky accent (tweak anytime) */
-  --color-bg: #0b1120;
-  --color-bg-elevated: #111827;
-  --color-surface: #1e293b;
-  --color-text: #e2e8f0;
-  --color-text-muted: #94a3b8;
-  --color-accent: #38bdf8;
-  --color-accent-dim: rgba(56, 189, 248, 0.15);
-  --color-border: #334155;
+  /* Base mesh backdrop — deep tones so frosted glass reads clearly */
+  --color-bg: #050810;
+  --color-bg-mid: #0c1222;
+  --color-text: #f4f7fb;
+  --color-text-muted: rgba(244, 247, 251, 0.65);
+  --color-accent: #64d2ff;
+  --color-accent-soft: #a78bfa;
+  --color-accent-dim: rgba(100, 210, 255, 0.12);
+  --color-mesh-a: #1a1f3a;
+  --color-mesh-b: #0d2137;
+  --color-mesh-c: #1a0f2e;
 
-  --font-sans: "Segoe UI", system-ui, -apple-system, sans-serif;
-  --font-mono: ui-monospace, "Cascadia Code", monospace;
+  /* Glass surfaces (light frost on dark mesh — macOS / iOS control-center vibe) */
+  --glass-fill: rgba(255, 255, 255, 0.06);
+  --glass-fill-strong: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-border-bright: rgba(255, 255, 255, 0.22);
+  --glass-highlight: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0) 50%
+  );
+  --glass-blur: 28px;
+  --glass-saturate: 1.75;
+  --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  --glass-inner-glow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", monospace;
 
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
@@ -25,10 +43,22 @@
   --space-2xl: 3rem;
   --space-3xl: 4rem;
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
   --max-width: 72rem;
   --header-height: 4rem;
+}
+
+/* Solid-ish fallback when OS “reduce transparency” is on (still readable, less blur) */
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass-fill: rgba(28, 32, 48, 0.92);
+    --glass-fill-strong: rgba(32, 38, 58, 0.95);
+    --glass-blur: 4px;
+    --glass-saturate: 1;
+  }
 }
 
 *,
@@ -65,7 +95,7 @@ body {
 /* Focus visible for keyboard users */
 :focus-visible {
   outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 img {

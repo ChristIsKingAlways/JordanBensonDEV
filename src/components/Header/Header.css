@@ -1,7 +1,7 @@
 /**
  * BEM block: site-header
- * Elements: __inner, __brand, __nav, __list, __link, ...
- * Modifier: __nav--open (mobile drawer visible)
+ * Apple-style frosted bar: blur + thin light rim + soft shadow.
+ * Modifier: __nav--open (mobile sheet — also glass)
  */
 
 .site-header {
@@ -9,9 +9,11 @@
   top: 0;
   z-index: 50;
   height: var(--header-height);
-  border-bottom: 1px solid var(--color-border);
-  background: rgba(11, 17, 32, 0.85);
-  backdrop-filter: blur(10px);
+  background: var(--glass-fill);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06), var(--glass-shadow);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
 }
 
 .site-header__inner {
@@ -36,6 +38,7 @@
 .site-header__brand-mark {
   font-weight: 700;
   font-size: 1.05rem;
+  letter-spacing: -0.02em;
 }
 
 .site-header__brand-role {
@@ -50,11 +53,14 @@
   width: 2.5rem;
   height: 2.5rem;
   padding: 0;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-bg-elevated);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--glass-fill-strong);
   color: var(--color-text);
   cursor: pointer;
+  box-shadow: var(--glass-inner-glow);
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
 }
 
 .site-header__menu-icon {
@@ -76,9 +82,12 @@
   inset: var(--header-height) 0 auto 0;
   max-height: 0;
   overflow: hidden;
-  background: var(--color-bg);
-  border-bottom: 1px solid var(--color-border);
+  background: var(--glass-fill-strong);
+  border-bottom: 1px solid var(--glass-border);
   transition: max-height 0.25s ease;
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  box-shadow: var(--glass-shadow);
 }
 
 .site-header__nav--open {
@@ -92,6 +101,9 @@
     overflow: visible;
     border-bottom: none;
     background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
   }
 }
 

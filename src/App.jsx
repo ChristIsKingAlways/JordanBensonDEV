@@ -14,6 +14,8 @@ import "./App.css";
 function App() {
   return (
     <div className="app">
+      {/* Decorative mesh behind glass panels (Apple-style wallpaper blur look) */}
+      <div className="app__mesh" aria-hidden="true" />
       <a className="app__skip" href="#main">
         Skip to main content
       </a>

@@ -1,22 +1,29 @@
 /**
  * BEM block: contact
+ * Single glass panel for CTA + social row.
  */
 
 .contact {
   padding: var(--space-3xl) var(--space-md);
-  background: var(--color-bg-elevated);
-  border-top: 1px solid var(--color-border);
 }
 
 .contact__inner {
   max-width: var(--max-width);
   margin: 0 auto;
+  padding: var(--space-xl) var(--space-xl);
+  border-radius: var(--radius-xl);
+  background: var(--glass-fill-strong);
+  border: 1px solid var(--glass-border-bright);
+  box-shadow: var(--glass-inner-glow), var(--glass-shadow);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
 }
 
 .contact__title {
   margin: 0 0 var(--space-md);
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .contact__text {
@@ -47,11 +54,19 @@
 }
 
 .contact__social-link {
-  color: var(--color-text-muted);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 999px;
+  color: var(--color-text);
   font-weight: 600;
   text-decoration: none;
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color 0.2s, color 0.2s;
 }
 
 .contact__social-link:hover {
   color: var(--color-accent);
+  border-color: rgba(100, 210, 255, 0.35);
 }
