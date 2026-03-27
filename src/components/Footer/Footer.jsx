@@ -9,7 +9,7 @@ function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="site-footer">
+    <footer className="site-footer" data-code-snippet="footer">
       <div className="site-footer__inner">
         <p className="site-footer__copy">
           © {year} {siteMeta.name}

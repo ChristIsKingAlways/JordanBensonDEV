@@ -43,7 +43,7 @@ function ProjectCard({ project, ratioClass }) {
 
 function Projects() {
   return (
-    <section id="projects" className="projects" aria-labelledby="projects-heading">
+    <section id="projects" className="projects" aria-labelledby="projects-heading" data-code-snippet="projects">
       <div className="projects__inner">
         <header className="projects__header">
           <p className="projects__eyebrow">Selected Work</p>

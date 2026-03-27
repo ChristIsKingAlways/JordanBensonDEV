@@ -9,6 +9,7 @@ import Projects from "./components/Projects/Projects.jsx";
 import About from "./components/About/About.jsx";
 import Contact from "./components/Contact/Contact.jsx";
 import Footer from "./components/Footer/Footer.jsx";
+import EasterEggTooltip from "./components/EasterEggTooltip/EasterEggTooltip.jsx";
 import "./App.css";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Contact />
       </main>
       <Footer />
+      <EasterEggTooltip />
     </div>
   );
 }

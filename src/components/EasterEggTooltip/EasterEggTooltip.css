@@ -1,0 +1,70 @@
+/**
+ * BEM block: easter-egg-tooltip
+ * Glass + mono code — matches site tokens (gold accent, blur).
+ */
+
+.easter-egg-tooltip {
+  position: fixed;
+  z-index: 300;
+  max-width: min(22rem, calc(100vw - 1.5rem));
+  max-height: min(40vh, 16rem);
+  padding: var(--space-md);
+  border-radius: var(--radius-sm);
+  background: var(--glass-bg-elevated);
+  border: 1px solid var(--glass-stroke-bright);
+  box-shadow: var(--glass-inset), var(--glass-shadow);
+  backdrop-filter: var(--glass-blur-tight) var(--glass-saturate);
+  -webkit-backdrop-filter: var(--glass-blur-tight) var(--glass-saturate);
+  pointer-events: none;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.easter-egg-tooltip__eyebrow {
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
+
+.easter-egg-tooltip__pre {
+  margin: 0;
+  overflow: auto;
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  font-size: 0.65rem;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--text) 88%, var(--accent));
+  white-space: pre-wrap;
+  word-break: break-word;
+  scrollbar-width: thin;
+}
+
+.easter-egg-tooltip__pre::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.easter-egg-tooltip__pre::-webkit-scrollbar-thumb {
+  background: var(--glass-stroke);
+  border-radius: 999px;
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .easter-egg-tooltip {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: color-mix(in srgb, var(--bg-deep) 94%, #fff);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .easter-egg-tooltip {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: color-mix(in srgb, var(--bg-deep) 92%, #fff);
+  }
+}

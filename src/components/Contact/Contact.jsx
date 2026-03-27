@@ -47,7 +47,7 @@ function Contact() {
   };
 
   return (
-    <section id="contact" className="contact" aria-labelledby="contact-title">
+    <section id="contact" className="contact" aria-labelledby="contact-title" data-code-snippet="contact">
       <iframe
         className="contact__form-target"
         title="Form response"

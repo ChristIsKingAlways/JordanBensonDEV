@@ -7,7 +7,7 @@ import "./Hero.css";
 
 function Hero() {
   return (
-    <section id="home" className="hero" aria-labelledby="hero-heading">
+    <section id="home" className="hero" aria-labelledby="hero-heading" data-code-snippet="hero">
       <div className="hero__inner">
         <div className="hero__copy hero__copy--animated">
           <h1 id="hero-heading" className="hero__headline">

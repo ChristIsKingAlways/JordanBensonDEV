@@ -7,7 +7,7 @@ import "./About.css";
 
 function About() {
   return (
-    <section id="about" className="about" aria-labelledby="about-lead">
+    <section id="about" className="about" aria-labelledby="about-lead" data-code-snippet="about">
       <div className="about__inner">
         <div className="about__panel">
           <div className="about__columns">

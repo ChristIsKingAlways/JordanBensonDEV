@@ -32,7 +32,7 @@ function Header() {
     .join(" ");
 
   return (
-    <header className={barMods}>
+    <header className={barMods} data-code-snippet="header">
       <nav className="site-header__inner" aria-label="Primary">
         <a className="site-header__brand" href="#home" onClick={() => setMenuOpen(false)}>
           <span className="site-header__brand-name">{brandName}</span>
