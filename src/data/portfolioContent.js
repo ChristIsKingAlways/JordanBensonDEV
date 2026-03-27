@@ -10,10 +10,7 @@ export const siteMeta = {
   description:
     "Developer and entrepreneur focused on building thoughtful, scalable solutions for the modern web.",
   email: "Jordan@duodynamicsit.com",
-  social: [
-    { label: "GitHub", url: "https://github.com/ChristIsKingAlways" },
-    { label: "LinkedIn", url: "https://linkedin.com/in/" },
-  ],
+  social: [{ label: "GitHub", url: "https://github.com/ChristIsKingAlways" }],
 };
 
 /** Primary nav — labels mirror the public site (“Work” → #projects). */
