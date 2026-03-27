@@ -101,9 +101,29 @@ export const projects = [
   },
 ];
 
+/**
+ * Google Form “Contact Us” — field names + anti-spam tokens from the form HTML.
+ * If submissions suddenly fail after a form edit, re-open the form → View page source → copy fbzx / partialResponse from the embedded form.
+ * @see https://docs.google.com/forms/d/e/1FAIpQLScJe-tYLChxjKDvB7QlilN6KwlShXJwdiJ2O7tmc4AEb4NjQg/viewform
+ */
+export const googleForm = {
+  action:
+    "https://docs.google.com/forms/d/e/1FAIpQLScJe-tYLChxjKDvB7QlilN6KwlShXJwdiJ2O7tmc4AEb4NjQg/formResponse",
+  entryName: "entry.1376256521",
+  entryEmail: "entry.879871093",
+  entryMessage: "entry.448481980",
+  hidden: {
+    fvv: "1",
+    pageHistory: "0",
+    submissionTimestamp: "-1",
+    fbzx: "6451329955556586994",
+    partialResponse: '[null,null,"6451329955556586994"]',
+  },
+};
+
 export const contactCopy = {
   eyebrow: "Contact",
   title: "Let's work together",
   sub: "Have a project in mind? I'd love to hear about it.",
-  formHint: "Submissions are validated client-side. Connect a backend or form service for production.",
+  formHint: "Submissions are delivered securely through our contact form.",
 };
