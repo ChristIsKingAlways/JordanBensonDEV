@@ -47,6 +47,7 @@ export const skillTags = ["React", "Next.js", "JavaScript", "HTML & CSS"];
 
 /**
  * Build Microlink screenshot URL (no API key; embed mode returns image URL).
+ * waitForTimeout: ms to wait on the target page before capture (slow SPAs / Vercel cold starts).
  * @param {string} pageUrl — live project URL
  */
 export function microlinkScreenshotUrl(pageUrl) {
@@ -55,6 +56,7 @@ export function microlinkScreenshotUrl(pageUrl) {
     screenshot: "true",
     meta: "false",
     embed: "screenshot.url",
+    waitForTimeout: "10000",
   });
   return `https://api.microlink.io/?${q.toString()}`;
 }
@@ -71,12 +73,6 @@ export const projects = [
     category: "CRM",
     url: "https://closeit.online/",
     imageAlt: "Preview of Close It",
-  },
-  {
-    title: "Authoship",
-    category: "SaaS Platform",
-    url: "https://authoship.io/",
-    imageAlt: "Preview of Authoship",
   },
   {
     title: "Churchee",
