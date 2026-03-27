@@ -1,14 +1,14 @@
 /**
  * Block: particle-field
- * Gold dust behind content: many particles (viewport-scaled), larger dots + glow, visible layer opacity.
+ * Gold dust behind content: viewport-scaled count, glow + core; count/size tuned below.
  */
 import { useEffect, useRef } from "react";
 import "./ParticleField.css";
 
-/** ~1 particle per ~9k px², clamped for perf and small phones */
+/** ~1 particle per ~18k px² (half previous density); clamp 50–110 */
 function particleCountForViewport(w, h) {
   const area = w * h;
-  return Math.min(220, Math.max(100, Math.floor(area / 9000)));
+  return Math.min(110, Math.max(50, Math.floor(area / 18000)));
 }
 
 const GOLD = "212, 175, 55";
@@ -48,13 +48,15 @@ function ParticleField() {
       particles.length = 0;
       const w = window.innerWidth;
       const h = window.innerHeight;
-      const n = reducedMotion ? Math.min(40, particleCountForViewport(w, h)) : particleCountForViewport(w, h);
+      const n = reducedMotion ? Math.min(20, particleCountForViewport(w, h)) : particleCountForViewport(w, h);
       for (let i = 0; i < n; i++) {
         const warm = Math.random() > 0.55;
+        /* Core radius: 75% of prior range (0.6–2.8 → ~0.45–2.1) */
+        const r = (Math.random() * 2.2 + 0.6) * 0.75;
         particles.push({
           x: Math.random() * w,
           y: Math.random() * h,
-          r: Math.random() * 2.2 + 0.6,
+          r,
           vx: (Math.random() - 0.5) * (reducedMotion ? 0.02 : 0.28),
           vy: (Math.random() - 0.5) * (reducedMotion ? 0.02 : 0.28),
           a: Math.random() * 0.45 + (warm ? 0.35 : 0.25),
