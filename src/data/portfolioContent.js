@@ -32,7 +32,7 @@ export const aboutIntro = {
 };
 
 export const aboutParagraphs = [
-  "I'm a builder at heart with a background in IT support and a growing focus on full-stack development. After 17 years of solving real-world technical problems, I've shifted toward creating digital tools, websites, and systems that actually move things forward.",
+  "I'm a builder at heart with a background in IT support and a focus on full-stack development. After 17 years of solving real-world technical problems, I've shifted toward creating digital tools, websites, and systems that actually move things forward.",
   "I don't come from a traditional developer path, I come from hands-on experience. I've spent years troubleshooting, learning how systems break, and more importantly, how to fix them. That perspective carries into everything I build today: practical, user-focused, and built to work in the real world.",
   "Right now, I'm actively developing projects that combine modern web technologies with automation and AI. From building platforms like IronDisciple to working with tools like Supabase, Vercel, and API integrations, I'm focused on creating solutions that are not just functional, but meaningful.",
   "I'm especially interested in building things that help people, whether that's through better user experiences, smarter systems, or tools that solve real problems.",
