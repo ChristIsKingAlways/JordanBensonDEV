@@ -22,6 +22,8 @@ function EasterEggTooltip() {
   const timerRef = useRef(null);
   const openRef = useRef(false);
   const lastPointerRef = useRef({ x: 0, y: 0 });
+  /** Tooltip root while open — ignore scroll events from inner `<pre>` auto-scroll */
+  const tooltipRootRef = useRef(null);
 
   useEffect(() => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -102,7 +104,9 @@ function EasterEggTooltip() {
       hide();
     };
 
-    const onScroll = () => {
+    const onScroll = (e) => {
+      const t = e.target;
+      if (t instanceof Element && tooltipRootRef.current?.contains(t)) return;
       hide();
     };
 
@@ -220,6 +224,7 @@ function EasterEggTooltip() {
 
   return (
     <div
+      ref={tooltipRootRef}
       className="easter-egg-tooltip"
       style={{ left: pos.x, top: pos.y }}
       role="tooltip"
