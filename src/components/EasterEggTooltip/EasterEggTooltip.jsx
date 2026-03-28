@@ -1,7 +1,7 @@
 /**
  * Easter egg: hover any [data-code-snippet] region for 1.5s → glass tooltip with a curated code peek.
  * Tooltip hides on the next pointer move; still inside the same region restarts the dwell timer.
- * If the code block overflows, after 750ms it smooth-scrolls to the bottom, waits 750ms, then to the top.
+ * If the code block overflows, after 750ms it ease-scrolls down (~1.5s), waits 750ms, then ease-scrolls to top (~1.5s).
  * Disabled when prefers-reduced-motion: reduce. Also clears on leave, scroll, or Escape.
  */
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -11,8 +11,48 @@ import "./EasterEggTooltip.css";
 const HOVER_MS = 1500;
 /** Pause before auto-scroll; dwell at bottom before returning to top */
 const AUTO_SCROLL_PHASE_MS = 750;
-/** If `scrollend` never fires (older browsers), assume smooth scroll finished */
-const SCROLL_END_FALLBACK_MS = 1200;
+/** Readable eased scroll duration for tooltip code block */
+const AUTO_SCROLL_DURATION_MS = 1500;
+
+function easeInOutCubic(t) {
+  return t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
+}
+
+/**
+ * Animate `el.scrollTop` to `targetTop` over `durationMs` with ease-in-out cubic.
+ * Returns `cancel()` for cleanup. Skips animation if already there.
+ */
+function animateScrollTop(el, targetTop, durationMs, onDone, isCancelled) {
+  let rafId = 0;
+  let hardCancel = false;
+  const cancel = () => {
+    hardCancel = true;
+    cancelAnimationFrame(rafId);
+  };
+  const startTop = el.scrollTop;
+  const delta = targetTop - startTop;
+  const t0 = performance.now();
+
+  if (Math.abs(delta) < 0.5) {
+    el.scrollTop = targetTop;
+    if (!isCancelled()) onDone?.();
+    return () => {};
+  }
+
+  const tick = (now) => {
+    if (hardCancel || isCancelled()) return;
+    const u = Math.min(1, (now - t0) / durationMs);
+    el.scrollTop = startTop + delta * easeInOutCubic(u);
+    if (u < 1) {
+      rafId = requestAnimationFrame(tick);
+    } else {
+      el.scrollTop = targetTop;
+      onDone?.();
+    }
+  };
+  rafId = requestAnimationFrame(tick);
+  return cancel;
+}
 
 function EasterEggTooltip() {
   const [open, setOpen] = useState(false);
@@ -131,13 +171,13 @@ function EasterEggTooltip() {
   }, []);
 
   const preRef = useRef(null);
-  const scrollEndHandlerRef = useRef(null);
 
   useLayoutEffect(() => {
     if (!open || !snippet) return undefined;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
 
     let alive = true;
+    let cancelScrollAnim = null;
     const timeouts = [];
     const pushTimeout = (fn, ms) => {
       const id = window.setTimeout(() => {
@@ -149,14 +189,10 @@ function EasterEggTooltip() {
 
     const clearPhase = () => {
       alive = false;
+      cancelScrollAnim?.();
+      cancelScrollAnim = null;
       timeouts.forEach((id) => clearTimeout(id));
       timeouts.length = 0;
-      const node = preRef.current;
-      const h = scrollEndHandlerRef.current;
-      if (node && h) {
-        node.removeEventListener("scrollend", h);
-        scrollEndHandlerRef.current = null;
-      }
     };
 
     const run = () => {
@@ -174,37 +210,30 @@ function EasterEggTooltip() {
         const max = node.scrollHeight - node.clientHeight;
         if (max < 2) return;
 
-        let settledBottom = false;
-        let bottomFallbackId = null;
-        const afterBottomReached = () => {
-          if (!alive || settledBottom) return;
-          settledBottom = true;
-          if (bottomFallbackId != null) {
-            clearTimeout(bottomFallbackId);
-            bottomFallbackId = null;
-          }
-          const n = preRef.current;
-          const handler = scrollEndHandlerRef.current;
-          if (n && handler) {
-            n.removeEventListener("scrollend", handler);
-            scrollEndHandlerRef.current = null;
-          }
-
-          pushTimeout(() => {
+        cancelScrollAnim = animateScrollTop(
+          node,
+          max,
+          AUTO_SCROLL_DURATION_MS,
+          () => {
+            cancelScrollAnim = null;
             if (!alive) return;
-            preRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-          }, AUTO_SCROLL_PHASE_MS);
-        };
-
-        const onScrollEnd = () => afterBottomReached();
-        scrollEndHandlerRef.current = onScrollEnd;
-        node.addEventListener("scrollend", onScrollEnd, { once: true });
-        bottomFallbackId = window.setTimeout(() => {
-          if (alive) afterBottomReached();
-        }, SCROLL_END_FALLBACK_MS);
-        timeouts.push(bottomFallbackId);
-
-        node.scrollTo({ top: max, behavior: "smooth" });
+            pushTimeout(() => {
+              if (!alive) return;
+              const n = preRef.current;
+              if (!n) return;
+              cancelScrollAnim = animateScrollTop(
+                n,
+                0,
+                AUTO_SCROLL_DURATION_MS,
+                () => {
+                  cancelScrollAnim = null;
+                },
+                () => !alive
+              );
+            }, AUTO_SCROLL_PHASE_MS);
+          },
+          () => !alive
+        );
       }, AUTO_SCROLL_PHASE_MS);
     };
 
