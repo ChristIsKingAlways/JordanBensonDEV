@@ -3,6 +3,7 @@
  * Gold dust behind content: viewport-scaled count, glow + core; count/size tuned below.
  */
 import { useEffect, useRef } from "react";
+import { useTheme } from "../../context/ThemeContext.jsx";
 import "./ParticleField.css";
 
 /** ~1 particle per ~18k px² (half previous density); clamp 50–110 */
@@ -11,11 +12,20 @@ function particleCountForViewport(w, h) {
   return Math.min(110, Math.max(50, Math.floor(area / 18000)));
 }
 
-const GOLD = "212, 175, 55";
-const GOLD_HOT = "240, 216, 117";
+const GOLD_DARK = "212, 175, 55";
+const GOLD_HOT_DARK = "240, 216, 117";
+/** Darker gold on light backgrounds so particles stay visible */
+const GOLD_LIGHT = "130, 98, 28";
+const GOLD_HOT_LIGHT = "165, 128, 38";
+
+function rgbForParticle(isLight, warm) {
+  if (isLight) return warm ? GOLD_HOT_LIGHT : GOLD_LIGHT;
+  return warm ? GOLD_HOT_DARK : GOLD_DARK;
+}
 
 function ParticleField() {
   const ref = useRef(null);
+  const { isLight } = useTheme();
 
   useEffect(() => {
     const canvas = ref.current;
@@ -80,7 +90,7 @@ function ParticleField() {
           baseVx: vx,
           baseVy: vy,
           a: Math.random() * 0.45 + (warm ? 0.35 : 0.25),
-          rgb: warm ? GOLD_HOT : GOLD,
+          rgb: rgbForParticle(isLight, warm),
         });
       }
     };
@@ -156,7 +166,7 @@ function ParticleField() {
       window.removeEventListener("pointermove", onPointerMove);
       mq.removeEventListener("change", onMotion);
     };
-  }, []);
+  }, [isLight]);
 
   return <canvas ref={ref} className="particle-field" aria-hidden="true" />;
 }

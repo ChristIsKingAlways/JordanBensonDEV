@@ -12,6 +12,10 @@
   opacity: 0.78;
 }
 
+html[data-theme="light"] .particle-field {
+  opacity: 0.42;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .particle-field {
     opacity: 0.45;

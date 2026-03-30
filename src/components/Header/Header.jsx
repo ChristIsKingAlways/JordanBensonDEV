@@ -4,7 +4,25 @@
  */
 import { useState, useEffect } from "react";
 import { navLinks, siteMeta } from "../../data/portfolioContent.js";
+import { useTheme } from "../../context/ThemeContext.jsx";
 import "./Header.css";
+
+function IconSun() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+    </svg>
+  );
+}
+
+function IconMoon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  );
+}
 
 /** Split "Name | Role" from siteMeta.title for nav styling */
 function parseNavTitle(title) {
@@ -15,6 +33,7 @@ function parseNavTitle(title) {
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { toggleTheme, isLight } = useTheme();
   const { name: brandName, tag: brandTag } = parseNavTitle(siteMeta.title);
 
   useEffect(() => {
@@ -47,17 +66,6 @@ function Header() {
           ) : null}
         </a>
 
-        <button
-          type="button"
-          className="site-header__menu-toggle"
-          aria-expanded={menuOpen}
-          aria-controls="site-header-nav"
-          onClick={() => setMenuOpen((o) => !o)}
-        >
-          <span className="visually-hidden">Menu</span>
-          <span className="site-header__menu-icon" aria-hidden />
-        </button>
-
         <div
           id="site-header-nav"
           className={`site-header__nav-wrap ${menuOpen ? "site-header__nav-wrap--open" : ""}`}
@@ -77,9 +85,35 @@ function Header() {
           </ul>
         </div>
 
-        <a className="site-header__mobile-cta" href="#contact" onClick={() => setMenuOpen(false)}>
-          Contact
-        </a>
+        <div className="site-header__toolbar">
+          <button
+            type="button"
+            className="site-header__theme"
+            onClick={toggleTheme}
+            aria-pressed={isLight}
+            aria-label={isLight ? "Switch to dark mode" : "Switch to light mode"}
+          >
+            <span className="visually-hidden">
+              {isLight ? "Switch to dark mode" : "Switch to light mode"}
+            </span>
+            {isLight ? <IconMoon /> : <IconSun />}
+          </button>
+
+          <button
+            type="button"
+            className="site-header__menu-toggle"
+            aria-expanded={menuOpen}
+            aria-controls="site-header-nav"
+            onClick={() => setMenuOpen((o) => !o)}
+          >
+            <span className="visually-hidden">Menu</span>
+            <span className="site-header__menu-icon" aria-hidden />
+          </button>
+
+          <a className="site-header__mobile-cta" href="#contact" onClick={() => setMenuOpen(false)}>
+            Contact
+          </a>
+        </div>
       </nav>
     </header>
   );

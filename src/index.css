@@ -43,6 +43,33 @@
   --glass-shadow: 0 16px 48px color-mix(in srgb, #000 48%, transparent);
   --glass-shadow-soft: 0 8px 28px color-mix(in srgb, #000 38%, transparent);
   --glass-inset: inset 0 1px 0 var(--glass-stroke-bright);
+  /** Card hover / header bar drop shadow tint */
+  --shadow-elevated: color-mix(in srgb, #000 35%, transparent);
+  --shadow-card-hover: color-mix(in srgb, #000 42%, transparent);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg-deep: #f3f0e8;
+  --bg-elevated: color-mix(in srgb, var(--bg-deep) 94%, #1c1917);
+  --surface: color-mix(in srgb, #0f172a 5%, var(--bg-deep));
+  --text: #0f172a;
+  --text-muted: color-mix(in srgb, var(--text) 58%, #475569);
+  --text-faint: color-mix(in srgb, var(--text) 35%, #64748b);
+  --accent: #a67c00;
+  --accent-hot: #c9a227;
+  --accent-copper: #9a3412;
+  --border-subtle: color-mix(in srgb, var(--text) 9%, transparent);
+  --glass-bg: color-mix(in srgb, #fff 65%, transparent);
+  --glass-bg-elevated: color-mix(in srgb, #fff 78%, transparent);
+  --glass-bg-subtle: color-mix(in srgb, #fff 52%, transparent);
+  --glass-stroke: color-mix(in srgb, var(--text) 11%, transparent);
+  --glass-stroke-bright: color-mix(in srgb, var(--text) 18%, transparent);
+  --glass-shadow: 0 16px 48px color-mix(in srgb, #0f172a 11%, transparent);
+  --glass-shadow-soft: 0 8px 28px color-mix(in srgb, #0f172a 9%, transparent);
+  --glass-inset: inset 0 1px 0 color-mix(in srgb, #fff 55%, transparent);
+  --shadow-elevated: color-mix(in srgb, #0f172a 14%, transparent);
+  --shadow-card-hover: color-mix(in srgb, #0f172a 17%, transparent);
 }
 
 *,
@@ -86,11 +113,36 @@ body {
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  transition:
+    background-color 0.45s var(--ease-out-expo),
+    color 0.45s var(--ease-out-expo);
+}
+
+html[data-theme="light"] body {
+  background-image:
+    radial-gradient(
+      ellipse 120% 80% at 50% -25%,
+      color-mix(in srgb, var(--accent) 9%, transparent),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 70% 45% at 100% 40%,
+      color-mix(in srgb, var(--accent-copper) 5%, transparent),
+      transparent 48%
+    );
 }
 
 ::selection {
   background: color-mix(in srgb, var(--accent) 35%, transparent);
   color: var(--text);
+}
+
+[data-theme="light"] .about__panel::before {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--text) 7%, transparent) 0%, transparent 52%);
+}
+
+[data-theme="light"] .about__skill-tag {
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 5%, transparent);
 }
 
 :focus-visible {
