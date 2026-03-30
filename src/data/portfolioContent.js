@@ -66,36 +66,50 @@ export function microlinkScreenshotUrl(pageUrl) {
   return `https://api.microlink.io/?${q.toString()}`;
 }
 
+/**
+ * Each project: live `url`, `stack` (tech line under the title), and `description` (body copy).
+ * Thumbnails still use `microlinkScreenshotUrl(url)` in Projects.jsx.
+ */
 export const projects = [
   {
     title: "Iron Disciple",
-    category: "Social Media Platform",
     url: "https://irondisciple.org/",
     imageAlt: "Preview of Iron Disciple",
+    stack: ["HTML", "CSS", "JavaScript", "React", "Supabase"],
+    description:
+      "A social platform built for faith-centered community. Members can connect, share, and engage in a space designed for meaningful interaction, with a modern web stack and real-time-friendly backend services.",
   },
   {
     title: "Close It",
-    category: "CRM",
     url: "https://closeit.online/",
     imageAlt: "Preview of Close It",
+    stack: ["HTML", "CSS", "JavaScript", "React"],
+    description:
+      "A CRM-style product focused on keeping deals, contacts, and follow-ups organized in one place. The interface is built for clarity and speed so teams can move from lead to close without fighting the tool.",
   },
   {
     title: "Churchee",
-    category: "Church Community Platform",
     url: "https://www.churchee.io/",
     imageAlt: "Preview of Churchee",
+    stack: ["HTML", "CSS", "JavaScript", "React"],
+    description:
+      "A church community platform that helps congregations stay connected beyond Sunday. It brings announcements, groups, and engagement together in a single, approachable web experience.",
   },
   {
     title: "Axis Motors",
-    category: "Premium Auto Inventory",
     url: "https://axis-motors.vercel.app/",
     imageAlt: "Preview of Axis Motors",
+    stack: ["HTML", "CSS", "JavaScript", "React", "Vercel"],
+    description:
+      "A premium auto inventory experience with strong visual hierarchy and responsive layouts. Built to showcase vehicles and key details in a way that feels polished on every device.",
   },
   {
     title: "Daily Quib",
-    category: "News & Culture",
     url: "https://daily-quib.vercel.app/",
     imageAlt: "Preview of Daily Quib",
+    stack: ["HTML", "CSS", "JavaScript", "React"],
+    description:
+      "A news and culture site focused on readable typography and fast browsing. The front end is structured so stories stay scannable while still leaving room for personality in the layout.",
   },
 ];
 

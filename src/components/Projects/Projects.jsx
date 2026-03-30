@@ -1,43 +1,55 @@
 /**
  * Block: projects
- * Compact screenshot grid — layout/typography aligned with jordanbensondev.com “Selected Work”.
- * Preview thumbs fade in after load so slow Microlink responses don’t flash empty frames as long.
+ * List layout (title → tech line → description) inspired by classic e-portfolio patterns;
+ * optional Microlink thumb per row for a quick visual anchor.
  */
 import { useState } from "react";
 import { projects, microlinkScreenshotUrl } from "../../data/portfolioContent.js";
 import "./Projects.css";
 
-function ProjectCard({ project, ratioClass }) {
+function ProjectRow({ project }) {
   const [imgReady, setImgReady] = useState(false);
+  const stackLine = project.stack.join(", ");
 
   return (
-    <a
-      href={project.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`projects__card ${ratioClass}`}
-    >
-      <div className="projects__thumb">
-        <img
-          className={`projects__image ${imgReady ? "projects__image--ready" : ""}`}
-          src={microlinkScreenshotUrl(project.url)}
-          alt={project.imageAlt}
-          loading="lazy"
-          decoding="async"
-          onLoad={() => setImgReady(true)}
-          onError={() => setImgReady(true)}
-        />
-      </div>
-      <div className="projects__meta">
-        <div className="projects__text">
-          <h3 className="projects__card-title">{project.title}</h3>
-          <p className="projects__category">{project.category}</p>
+    <li className="projects__item">
+      <article className="projects__article">
+        <a
+          href={project.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="projects__thumb-wrap"
+          aria-hidden="true"
+          tabIndex={-1}
+        >
+          <div className="projects__thumb">
+            <img
+              className={`projects__image ${imgReady ? "projects__image--ready" : ""}`}
+              src={microlinkScreenshotUrl(project.url)}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              onLoad={() => setImgReady(true)}
+              onError={() => setImgReady(true)}
+            />
+          </div>
+        </a>
+        <div className="projects__body">
+          <h3 className="projects__name">
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="projects__title-link"
+            >
+              {project.title}
+            </a>
+          </h3>
+          <p className="projects__stack">{stackLine}</p>
+          <p className="projects__description">{project.description}</p>
         </div>
-        <span className="projects__arrow" aria-hidden="true">
-          →
-        </span>
-      </div>
-    </a>
+      </article>
+    </li>
   );
 }
 
@@ -46,16 +58,13 @@ function Projects() {
     <section id="projects" className="projects" aria-labelledby="projects-heading" data-code-snippet="projects">
       <div className="projects__inner">
         <header className="projects__header">
-          <p className="projects__eyebrow">Selected Work</p>
           <h2 id="projects-heading" className="projects__title">
-            Recent projects
+            Here are some of my projects
           </h2>
         </header>
-        <ul className="projects__grid">
-          {projects.map((project, i) => (
-            <li key={project.title} className="projects__item">
-              <ProjectCard project={project} ratioClass={`projects__card--ratio-${(i % 3) + 1}`} />
-            </li>
+        <ul className="projects__list">
+          {projects.map((project) => (
+            <ProjectRow key={project.title} project={project} />
           ))}
         </ul>
       </div>
