@@ -8,7 +8,7 @@ export const siteMeta = {
   /** Browser tab / OG; also parsed for header brand (“Name | Role”) */
   title: "Jordan Benson | Developer",
   description:
-    "Developer and entrepreneur learning and building on the web with HTML, CSS, JavaScript, and React.",
+    "Developer and entrepreneur building thoughtful web experiences with HTML, CSS, JavaScript, and React.",
   email: "Jordan@duodynamicsit.com",
   social: [{ label: "GitHub", url: "https://github.com/ChristIsKingAlways" }],
 };
@@ -23,18 +23,18 @@ export const navLinks = [
 export const hero = {
   line1: "Crafting digital",
   line2: "experiences that matter",
-  lede: "Learning the core of the modern web—HTML, CSS, JavaScript, and React—and using it to build thoughtful, practical experiences.",
+  lede: "I build at the core of the modern web—HTML, CSS, JavaScript, and React—with a focus on interfaces that are clear, performant, and built to last.",
 };
 
 export const aboutIntro = {
   eyebrow: "About",
-  lead: "Builder. Problem solver. Always learning.",
+  lead: "Builder. Problem solver. Web-first.",
 };
 
 export const aboutParagraphs = [
-  "I'm a builder at heart with a background in IT support and a growing focus on web development. After 17 years of solving real-world technical problems, I've shifted toward creating digital tools, websites, and systems that actually move things forward.",
-  "I don't come from a traditional developer path, I come from hands-on experience. I've spent years troubleshooting, learning how systems break, and more importantly, how to fix them. That perspective carries into everything I build today: practical, user-focused, and built to work in the real world.",
-  "Right now I'm concentrating on the stack I'm learning: HTML for structure, CSS for layout and design, JavaScript for interactivity, and React for component-driven interfaces. I apply those skills to real projects—like the work you see here—so what I study shows up in things people can actually use.",
+  "I'm a builder at heart with a background in IT support and a strong focus on web development. After 17 years of solving real-world technical problems, I've shifted toward creating digital tools, websites, and systems that actually move things forward.",
+  "I don't come from a traditional developer path, I come from hands-on experience. I've spent years troubleshooting, understanding how systems break, and more importantly, how to fix them. That perspective carries into everything I build today: practical, user-focused, and built to work in the real world.",
+  "My work sits on a foundation I'm confident in: HTML for structure, CSS for layout and design, JavaScript for interactivity, and React for maintainable, component-driven interfaces. That stack powers the projects you see here—interfaces and experiences people rely on every day.",
   "I'm especially interested in building things that help people, whether that's through better user experiences, smarter systems, or tools that solve real problems.",
   "I'm not just writing code. I'm building, testing, and improving every day.",
 ];
