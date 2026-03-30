@@ -25,18 +25,19 @@ export const CODE_SNIPPET_MAP = {
 </section>`,
 
   projects: `<section id="projects" className="projects">
-  <h2>Here are some of my projects</h2>
-  <ul className="projects__list">
+  <h2 className="projects__section-title">Here are some of my projects</h2>
+  <ul>
     {projects.map((project) => (
       <li key={project.title}>
-        <article className="projects__article">
-          <a href={project.url}>…thumb (microlinkScreenshotUrl)</a>
-          <div>
-            <h3><a href={project.url}>{project.title}</a></h3>
-            <p className="projects__stack">{project.stack.join(", ")}</p>
+        <a className="projects__wrapper" href={project.url}>
+          <img src={microlinkScreenshotUrl(project.url)} alt={project.imageAlt} />
+          <div className="projects__overlay" />
+          <div className="projects__description">
+            <h3>{project.title}</h3>
+            <p>{project.stack.join(", ")}</p>
             <p>{project.description}</p>
           </div>
-        </article>
+        </a>
       </li>
     ))}
   </ul>
