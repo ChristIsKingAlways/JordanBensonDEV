@@ -45,9 +45,9 @@ export const CODE_SNIPPET_MAP = {
       <div className="about__body">
         {aboutParagraphs.map(…)}
         <ul className="about__skills">
-          {skillTags.map(({ label, icon, icons }) => (
+          {skillTags.map(({ label, icon }) => (
             <li className="about__skill-tag">
-              <img src={\`/skills/\${icon}\`} /> {label}
+              <img src={\`/skills/\${icon}\`} alt="" /> {label}
             </li>
           ))}
         </ul>

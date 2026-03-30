@@ -8,7 +8,7 @@ export const siteMeta = {
   /** Browser tab / OG; also parsed for header brand (“Name | Role”) */
   title: "Jordan Benson | Developer",
   description:
-    "Developer and entrepreneur focused on building thoughtful, scalable solutions for the modern web.",
+    "Developer and entrepreneur learning and building on the web with HTML, CSS, JavaScript, and React.",
   email: "Jordan@duodynamicsit.com",
   social: [{ label: "GitHub", url: "https://github.com/ChristIsKingAlways" }],
 };
@@ -23,7 +23,7 @@ export const navLinks = [
 export const hero = {
   line1: "Crafting digital",
   line2: "experiences that matter",
-  lede: "Developer and entrepreneur focused on building thoughtful, scalable solutions for the modern web.",
+  lede: "Learning the core of the modern web—HTML, CSS, JavaScript, and React—and using it to build thoughtful, practical experiences.",
 };
 
 export const aboutIntro = {
@@ -32,21 +32,22 @@ export const aboutIntro = {
 };
 
 export const aboutParagraphs = [
-  "I'm a builder at heart with a background in IT support and a focus on full-stack development. After 17 years of solving real-world technical problems, I've shifted toward creating digital tools, websites, and systems that actually move things forward.",
+  "I'm a builder at heart with a background in IT support and a growing focus on web development. After 17 years of solving real-world technical problems, I've shifted toward creating digital tools, websites, and systems that actually move things forward.",
   "I don't come from a traditional developer path, I come from hands-on experience. I've spent years troubleshooting, learning how systems break, and more importantly, how to fix them. That perspective carries into everything I build today: practical, user-focused, and built to work in the real world.",
-  "Right now, I'm actively developing projects that combine modern web technologies with automation and AI. From building platforms like IronDisciple to working with tools like Supabase, Vercel, and API integrations, I'm focused on creating solutions that are not just functional, but meaningful.",
+  "Right now I'm concentrating on the stack I'm learning: HTML for structure, CSS for layout and design, JavaScript for interactivity, and React for component-driven interfaces. I apply those skills to real projects—like the work you see here—so what I study shows up in things people can actually use.",
   "I'm especially interested in building things that help people, whether that's through better user experiences, smarter systems, or tools that solve real problems.",
   "I'm not just writing code. I'm building, testing, and improving every day.",
 ];
 
 /**
- * Skill chips under About — label + logo file(s) in /public/skills/ (Simple Icons, CC0).
- * Add `icon` for one file, or `icons: ["a.svg","b.svg"]` for combined chips.
+ * Skill chips under About — label + logo in /public/skills/ (Simple Icons, CC0).
+ * Use `icon` for one file, or `icons: ["a.svg","b.svg"]` for a combined chip.
  */
 export const skillTags = [
-  { label: "React", icon: "react.svg" },
+  { label: "HTML", icon: "html5.svg" },
+  { label: "CSS", icon: "css3.svg" },
   { label: "JavaScript", icon: "javascript.svg" },
-  { label: "HTML & CSS", icons: ["html5.svg", "css3.svg"] },
+  { label: "React", icon: "react.svg" },
 ];
 
 /**
