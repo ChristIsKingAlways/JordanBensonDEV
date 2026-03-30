@@ -3,5 +3,7 @@ node_modules/
 dist/
 *.local
 
-# Local learning doc (not pushed to GitHub)
+# Local learning docs (not pushed to GitHub)
 SITE-GUIDE.md
+PARTICLE-FIELD.md
+UNDER-THE-HOOD.md
