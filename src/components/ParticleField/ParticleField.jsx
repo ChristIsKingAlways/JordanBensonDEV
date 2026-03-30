@@ -26,12 +26,28 @@ function ParticleField() {
     let raf;
     const particles = [];
     let reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    /** Cursor in viewport CSS px; far off-screen until first move (no initial blast). */
+    let pointerX = -1e9;
+    let pointerY = -1e9;
+
+    /** Repulsion radius (px): particles outside ignore the pointer. */
+    const POINTER_RADIUS = 150;
+    /** Peak extra velocity per frame from repulsion (scaled by falloff²). */
+    const POINTER_PUSH = 0.95;
+    /** Ease velocity back toward each particle’s ambient drift after a disturbance. */
+    const DRIFT_RESTORE = 0.042;
 
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const onMotion = () => {
       reducedMotion = mq.matches;
     };
     mq.addEventListener("change", onMotion);
+
+    const onPointerMove = (e) => {
+      pointerX = e.clientX;
+      pointerY = e.clientY;
+    };
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -53,12 +69,16 @@ function ParticleField() {
         const warm = Math.random() > 0.55;
         /* Core radius: 75% of prior range (0.6–2.8 → ~0.45–2.1) */
         const r = (Math.random() * 2.2 + 0.6) * 0.75;
+        const vx = (Math.random() - 0.5) * (reducedMotion ? 0.02 : 0.28);
+        const vy = (Math.random() - 0.5) * (reducedMotion ? 0.02 : 0.28);
         particles.push({
           x: Math.random() * w,
           y: Math.random() * h,
           r,
-          vx: (Math.random() - 0.5) * (reducedMotion ? 0.02 : 0.28),
-          vy: (Math.random() - 0.5) * (reducedMotion ? 0.02 : 0.28),
+          vx,
+          vy,
+          baseVx: vx,
+          baseVy: vy,
           a: Math.random() * 0.45 + (warm ? 0.35 : 0.25),
           rgb: warm ? GOLD_HOT : GOLD,
         });
@@ -71,6 +91,30 @@ function ParticleField() {
       ctx.clearRect(0, 0, w, h);
       for (const p of particles) {
         if (!reducedMotion) {
+          p.vx += (p.baseVx - p.vx) * DRIFT_RESTORE;
+          p.vy += (p.baseVy - p.vy) * DRIFT_RESTORE;
+
+          const dx = p.x - pointerX;
+          const dy = p.y - pointerY;
+          const dist2 = dx * dx + dy * dy;
+          const r2 = POINTER_RADIUS * POINTER_RADIUS;
+          if (dist2 > 4 && dist2 < r2) {
+            const dist = Math.sqrt(dist2);
+            const nx = dx / dist;
+            const ny = dy / dist;
+            const edge = 1 - dist / POINTER_RADIUS;
+            const push = edge * edge * POINTER_PUSH;
+            p.vx += nx * push;
+            p.vy += ny * push;
+          }
+
+          const maxV = 4.2;
+          const vm = Math.hypot(p.vx, p.vy);
+          if (vm > maxV) {
+            p.vx = (p.vx / vm) * maxV;
+            p.vy = (p.vy / vm) * maxV;
+          }
+
           p.x += p.vx;
           p.y += p.vy;
           if (p.x < 0) p.x = w;
@@ -109,6 +153,7 @@ function ParticleField() {
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("pointermove", onPointerMove);
       mq.removeEventListener("change", onMotion);
     };
   }, []);
