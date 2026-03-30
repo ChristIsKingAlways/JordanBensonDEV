@@ -1,6 +1,6 @@
 /**
  * Curated “under the hood” snippets for the hover easter egg (data-code-snippet id → text).
- * Not live source extraction — representative JSX for each region.
+ * Not live source extraction, representative JSX for each region.
  */
 
 export const CODE_SNIPPET_MAP = {

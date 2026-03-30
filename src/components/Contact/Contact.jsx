@@ -1,6 +1,6 @@
 /**
  * Block: contact
- * Form + mail link — client-side validation, then POST to Google Forms via hidden iframe (no full-page redirect).
+ * Form + mail link, client-side validation, then POST to Google Forms via hidden iframe (no full-page redirect).
  */
 import { useRef, useState } from "react";
 import { siteMeta, contactCopy, googleForm } from "../../data/portfolioContent.js";
@@ -42,7 +42,7 @@ function Contact() {
     setErrors({});
     setStatus({
       type: "ok",
-      text: "Thanks — your message was sent. We'll get back to you shortly.",
+      text: "Thanks, your message was sent. We'll get back to you shortly.",
     });
   };
 

@@ -1,5 +1,5 @@
 /**
- * Central copy + project list — aligned with jordanbensondev.com content.
+ * Central copy + project list, aligned with jordanbensondev.com content.
  * Project screenshots use Microlink’s public screenshot embed (same approach as many live portfolio sites).
  */
 
@@ -13,7 +13,7 @@ export const siteMeta = {
   social: [{ label: "GitHub", url: "https://github.com/ChristIsKingAlways" }],
 };
 
-/** Primary nav — labels mirror the public site (“Work” → #projects). */
+/** Primary nav, labels mirror the public site (“Work” → #projects). */
 export const navLinks = [
   { id: "projects", label: "Work" },
   { id: "about", label: "About" },
@@ -23,7 +23,7 @@ export const navLinks = [
 export const hero = {
   line1: "Crafting digital",
   line2: "experiences that matter",
-  lede: "I build at the core of the modern web—HTML, CSS, JavaScript, and React—with a focus on interfaces that are clear, performant, and built to last.",
+  lede: "I build at the core of the modern web with HTML, CSS, JavaScript, and React, focused on clear, performant interfaces built to last.",
 };
 
 export const aboutIntro = {
@@ -33,14 +33,14 @@ export const aboutIntro = {
 
 export const aboutParagraphs = [
   "I'm a builder at heart with a background in IT support and a strong focus on web development. After 17 years of solving real-world technical problems, I've shifted toward creating digital tools, websites, and systems that actually move things forward.",
-  "I don't come from a traditional developer path, I come from hands-on experience. I've spent years troubleshooting, understanding how systems break, and more importantly, how to fix them. That perspective carries into everything I build today: practical, user-focused, and built to work in the real world.",
-  "My work sits on a foundation I'm confident in: HTML for structure, CSS for layout and design, JavaScript for interactivity, and React for maintainable, component-driven interfaces. That stack powers the projects you see here—interfaces and experiences people rely on every day.",
+  "I don't come from a traditional developer path, I come from hands-on experience. I've spent years troubleshooting, understanding how systems break, and more importantly, how to fix them. That perspective carries into everything I build today, keeping my work practical, user-focused, and built to work in the real world.",
+  "My work sits on a foundation I'm confident in, with HTML for structure, CSS for layout and design, JavaScript for interactivity, and React for maintainable, component-driven interfaces. That stack powers the projects you see here, the interfaces and experiences people rely on every day.",
   "I'm especially interested in building things that help people, whether that's through better user experiences, smarter systems, or tools that solve real problems.",
   "I'm not just writing code. I'm building, testing, and improving every day.",
 ];
 
 /**
- * Skill chips under About — label + logo in /public/skills/ (Simple Icons, CC0).
+ * Skill chips under About, label + logo in /public/skills/ (Simple Icons, CC0).
  * Use `icon` for one file, or `icons: ["a.svg","b.svg"]` for a combined chip.
  */
 export const skillTags = [
@@ -53,7 +53,7 @@ export const skillTags = [
 /**
  * Build Microlink screenshot URL (no API key; embed mode returns image URL).
  * waitForTimeout: ms to wait before screenshot (capped at 1.5s for fast previews).
- * @param {string} pageUrl — live project URL
+ * @param {string} pageUrl live project URL
  */
 export function microlinkScreenshotUrl(pageUrl) {
   const q = new URLSearchParams({
@@ -100,7 +100,7 @@ export const projects = [
 ];
 
 /**
- * Google Form “Contact Us” — field names + anti-spam tokens from the form HTML.
+ * Google Form “Contact Us”, field names + anti-spam tokens from the form HTML.
  * If submissions suddenly fail after a form edit, re-open the form → View page source → copy fbzx / partialResponse from the embedded form.
  * @see https://docs.google.com/forms/d/e/1FAIpQLScJe-tYLChxjKDvB7QlilN6KwlShXJwdiJ2O7tmc4AEb4NjQg/viewform
  */
