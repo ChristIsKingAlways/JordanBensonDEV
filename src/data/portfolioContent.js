@@ -138,4 +138,12 @@ export const contactCopy = {
   title: "Let's work together",
   sub: "Have a project in mind? I'd love to hear about it.",
   formHint: "Submissions are delivered securely through our contact form.",
+  modalTitle: "Send a message",
+  modalSub: "Tell me what you're building—I'll read every note.",
+  openModalCta: "Open contact form",
+  successTitle: "You made my day!",
+  successSub: "Your message is on its way. I'll get back to you soon.",
+  successHint: "Watch for a reply in your inbox.",
+  sendAnotherCta: "Send another message",
+  closeModalCta: "Close",
 };

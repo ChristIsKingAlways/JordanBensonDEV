@@ -62,18 +62,19 @@ export const CODE_SNIPPET_MAP = {
 </section>`,
 
   contact: `<section id="contact" className="contact">
-  <form
-    ref={formRef}
-    action={googleForm.action}
-    method="POST"
-    target={GOOGLE_FORM_TARGET}
-    onSubmit={onSubmit}
-  >
-    <input type="hidden" name="fbzx" value={googleForm.hidden.fbzx} />
-    <input name={googleForm.entryName} … />
-    <input name={googleForm.entryEmail} … />
-    <textarea name={googleForm.entryMessage} … />
-  </form>
+  <button type="button" onClick={openModal}>Open contact form</button>
+  {createPortal(
+    modalOpen ? (
+      <div className="contact-modal" role="presentation">
+        <div className="contact-modal__backdrop" onClick={closeModal} />
+        <div role="dialog" aria-modal className="contact-modal__dialog glass-form">
+          <form ref={formRef} action={googleForm.action} method="POST" target={GOOGLE_FORM_TARGET} />
+          {/* or success view with green celebration */}
+        </div>
+      </div>
+    ) : null,
+    document.body,
+  )}
 </section>`,
 
   footer: `<footer className="site-footer">
