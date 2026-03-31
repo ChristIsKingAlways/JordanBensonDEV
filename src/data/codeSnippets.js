@@ -62,7 +62,7 @@ export const CODE_SNIPPET_MAP = {
 </section>`,
 
   contact: `<section id="contact" className="contact">
-  <button type="button" onClick={openModal}>Open contact form</button>
+  <button type="button" onClick={openModal}>Send me a message</button>
   {createPortal(
     modalOpen ? (
       <div className="contact-modal" role="presentation">
