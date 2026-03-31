@@ -1,7 +1,7 @@
 /**
  * Block: particle-field
  * Gold dust: glow + core; links break under repulsion or fast motion.
- * Pointer move repels nearby particles; click pulls all particles toward the cursor (decaying pulse).
+ * Pointer move repels nearby particles.
  */
 import { useEffect, useRef } from "react";
 import { useTheme } from "../../context/ThemeContext.jsx";
@@ -40,17 +40,11 @@ function ParticleField() {
     /** Cursor in viewport CSS px; far off-screen until first move (no initial blast). */
     let pointerX = -1e9;
     let pointerY = -1e9;
-    /** Click-to-attract: pulls every particle toward (x,y) while power decays. */
-    let clickAttract = null;
 
     /** Repulsion radius (px): particles outside ignore the pointer. */
     const POINTER_RADIUS = 150;
     /** Peak extra velocity per frame from repulsion (scaled by falloff²). */
     const POINTER_PUSH = 0.95;
-    /** Peak velocity kick per frame toward click point (scaled by power × falloff). */
-    const ATTRACT_PULL = 0.58;
-    /** Per-frame multiplier while a click-attract pulse is active (shorter ≈ snappier). */
-    const ATTRACT_DECAY = 0.91;
     /** Ease velocity back toward each particle’s ambient drift after a disturbance. */
     const DRIFT_RESTORE = 0.042;
     /** Max distance (px) between centers to draw a link. */
@@ -86,15 +80,6 @@ function ParticleField() {
       pointerY = e.clientY;
     };
     window.addEventListener("pointermove", onPointerMove, { passive: true });
-
-    const onPointerDown = (e) => {
-      if (reducedMotion) return;
-      if (e.button !== 0) return;
-      pointerX = e.clientX;
-      pointerY = e.clientY;
-      clickAttract = { x: e.clientX, y: e.clientY, power: 1 };
-    };
-    window.addEventListener("pointerdown", onPointerDown, { passive: true });
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -137,37 +122,23 @@ function ParticleField() {
       const h = window.innerHeight;
       ctx.clearRect(0, 0, w, h);
 
-      const attractActive = !reducedMotion && clickAttract && clickAttract.power > 0.03;
-
       for (const p of particles) {
         if (!reducedMotion) {
           p.vx += (p.baseVx - p.vx) * DRIFT_RESTORE;
           p.vy += (p.baseVy - p.vy) * DRIFT_RESTORE;
 
-          if (attractActive) {
-            const dx = clickAttract.x - p.x;
-            const dy = clickAttract.y - p.y;
-            const dist = Math.hypot(dx, dy) + 8;
+          const dx = p.x - pointerX;
+          const dy = p.y - pointerY;
+          const dist2 = dx * dx + dy * dy;
+          const r2 = POINTER_RADIUS * POINTER_RADIUS;
+          if (dist2 > 4 && dist2 < r2) {
+            const dist = Math.sqrt(dist2);
             const nx = dx / dist;
             const ny = dy / dist;
-            const near = Math.min(1, dist / 100);
-            const mag = clickAttract.power * ATTRACT_PULL * near;
-            p.vx += nx * mag;
-            p.vy += ny * mag;
-          } else {
-            const dx = p.x - pointerX;
-            const dy = p.y - pointerY;
-            const dist2 = dx * dx + dy * dy;
-            const r2 = POINTER_RADIUS * POINTER_RADIUS;
-            if (dist2 > 4 && dist2 < r2) {
-              const dist = Math.sqrt(dist2);
-              const nx = dx / dist;
-              const ny = dy / dist;
-              const edge = 1 - dist / POINTER_RADIUS;
-              const push = edge * edge * POINTER_PUSH;
-              p.vx += nx * push;
-              p.vy += ny * push;
-            }
+            const edge = 1 - dist / POINTER_RADIUS;
+            const push = edge * edge * POINTER_PUSH;
+            p.vx += nx * push;
+            p.vy += ny * push;
           }
 
           const maxV = 4.2;
@@ -184,11 +155,6 @@ function ParticleField() {
           if (p.y < 0) p.y = h;
           if (p.y > h) p.y = 0;
         }
-      }
-
-      if (attractActive) {
-        clickAttract.power *= ATTRACT_DECAY;
-        if (clickAttract.power < 0.035) clickAttract = null;
       }
 
       if (!reducedMotion && particles.length > 1) {
@@ -272,7 +238,6 @@ function ParticleField() {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("pointerdown", onPointerDown);
       mq.removeEventListener("change", onMotion);
     };
   }, [isLight]);
