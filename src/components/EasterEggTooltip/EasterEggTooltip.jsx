@@ -1,5 +1,5 @@
 /**
- * Easter egg: hover any [data-code-snippet] region for 1.5s → glass tooltip with a curated code peek.
+ * Easter egg: hover any [data-code-snippet] region for 2.5s → glass tooltip with a curated code peek.
  * Tooltip hides on the next pointer move; still inside the same region restarts the dwell timer.
  * If the code block overflows, after 750ms it ease-scrolls down (~1.5s), waits 750ms, then ease-scrolls to top (~1.5s).
  * Disabled when prefers-reduced-motion: reduce. Also clears on leave, scroll, or Escape.
@@ -8,7 +8,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { CODE_SNIPPET_MAP } from "../../data/codeSnippets.js";
 import "./EasterEggTooltip.css";
 
-const HOVER_MS = 1500;
+const HOVER_MS = 2500;
 /** Pause before auto-scroll; dwell at bottom before returning to top */
 const AUTO_SCROLL_PHASE_MS = 750;
 /** Readable eased scroll duration for tooltip code block */
