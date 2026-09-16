@@ -1,5 +1,6 @@
 /**
  * Root layout — section order matches jordanbensondev.com: Home, Work, About, Contact, Footer.
+ * Personalized sales previews are routed under /preview/:id.
  */
 import ScrollProgress from "./components/ScrollProgress/ScrollProgress.jsx";
 import ParticleField from "./components/ParticleField/ParticleField.jsx";
