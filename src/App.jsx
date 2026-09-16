@@ -16,25 +16,14 @@ import ExpandedPreviewSite from "./components/PreviewSite/ExpandedPreviewSite.js
 import WideNetPreviewSite from "./components/PreviewSite/WideNetPreviewSite.jsx";
 import ReplacementPreviewSite from "./components/PreviewSite/ReplacementPreviewSite.jsx";
 import ExtraReplacementPreviewSite from "./components/PreviewSite/ExtraReplacementPreviewSite.jsx";
+import DuralConcretePreviewSite from "./components/PreviewSite/DuralConcretePreviewSite.jsx";
 import "./App.css";
 
 const expandedPreviewIds = new Set([
-  "total-service-hvac",
-  "wright-jones",
-  "vision-mechanical",
-  "midtown-electric",
-  "aragons-lawn",
-  "tripple-j-roofing",
-  "mam-concrete",
-  "truss-mill",
-  "egon-electric",
-  "johnnys-plumbing",
-  "juniper-ridge",
-  "powerhouse-excavation",
-  "providence-plumbing",
-  "comfort-heating-plumbing",
-  "reyes-sealcoating",
-  "foampros",
+  "total-service-hvac", "wright-jones", "vision-mechanical", "midtown-electric",
+  "aragons-lawn", "tripple-j-roofing", "mam-concrete", "truss-mill",
+  "egon-electric", "johnnys-plumbing", "juniper-ridge", "powerhouse-excavation",
+  "providence-plumbing", "comfort-heating-plumbing", "reyes-sealcoating", "foampros",
 ]);
 
 function App() {
@@ -42,6 +31,8 @@ function App() {
 
   if (previewMatch) {
     const id = previewMatch[1];
+    if (id === "wide-valentine-plumbing") return null;
+    if (id === "replacement-dural-concrete") return <DuralConcretePreviewSite />;
     if (id === "replacement-mountain-view") return <ExtraReplacementPreviewSite />;
     if (id.startsWith("replacement-")) return <ReplacementPreviewSite id={id} />;
     if (id.startsWith("wide-")) return <WideNetPreviewSite id={id} />;
@@ -53,15 +44,10 @@ function App() {
     <div className="app">
       <ParticleField />
       <ScrollProgress />
-      <a className="app__skip" href="#main-content">
-        Skip to main content
-      </a>
+      <a className="app__skip" href="#main-content">Skip to main content</a>
       <Header />
       <main id="main-content" className="app__main" tabIndex={-1}>
-        <Hero />
-        <Projects />
-        <About />
-        <Contact />
+        <Hero /><Projects /><About /><Contact />
       </main>
       <Footer />
       <EasterEggTooltip />
