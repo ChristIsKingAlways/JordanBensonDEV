@@ -12,13 +12,35 @@ import Contact from "./components/Contact/Contact.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import EasterEggTooltip from "./components/EasterEggTooltip/EasterEggTooltip.jsx";
 import PreviewSite from "./components/PreviewSite/PreviewSite.jsx";
+import ExpandedPreviewSite from "./components/PreviewSite/ExpandedPreviewSite.jsx";
 import "./App.css";
+
+const expandedPreviewIds = new Set([
+  "total-service-hvac",
+  "wright-jones",
+  "vision-mechanical",
+  "midtown-electric",
+  "aragons-lawn",
+  "tripple-j-roofing",
+  "mam-concrete",
+  "truss-mill",
+  "egon-electric",
+  "johnnys-plumbing",
+  "juniper-ridge",
+  "powerhouse-excavation",
+  "providence-plumbing",
+  "comfort-heating-plumbing",
+  "reyes-sealcoating",
+  "foampros",
+]);
 
 function App() {
   const previewMatch = window.location.pathname.match(/^\/preview\/([^/]+)\/?$/);
 
   if (previewMatch) {
-    return <PreviewSite id={previewMatch[1]} />;
+    const id = previewMatch[1];
+    if (expandedPreviewIds.has(id)) return <ExpandedPreviewSite id={id} />;
+    return <PreviewSite id={id} />;
   }
 
   return (
