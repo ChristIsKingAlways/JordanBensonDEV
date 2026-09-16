@@ -80,14 +80,6 @@ export const projects = [
       "A social platform built for faith-centered community. Members can connect, share, and engage in a space designed for meaningful interaction, with a modern web stack and real-time-friendly backend services.",
   },
   {
-    title: "Close It",
-    url: "https://closeit.online/",
-    imageAlt: "Preview of Close It",
-    stack: ["HTML", "CSS", "JavaScript", "React"],
-    description:
-      "A CRM-style product focused on keeping deals, contacts, and follow-ups organized in one place. The interface is built for clarity and speed so teams can move from lead to close without fighting the tool.",
-  },
-  {
     title: "Churchee",
     url: "https://www.churchee.io/",
     imageAlt: "Preview of Churchee",
