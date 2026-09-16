@@ -14,6 +14,7 @@ import EasterEggTooltip from "./components/EasterEggTooltip/EasterEggTooltip.jsx
 import PreviewSite from "./components/PreviewSite/PreviewSite.jsx";
 import ExpandedPreviewSite from "./components/PreviewSite/ExpandedPreviewSite.jsx";
 import WideNetPreviewSite from "./components/PreviewSite/WideNetPreviewSite.jsx";
+import ReplacementPreviewSite from "./components/PreviewSite/ReplacementPreviewSite.jsx";
 import "./App.css";
 
 const expandedPreviewIds = new Set([
@@ -40,6 +41,7 @@ function App() {
 
   if (previewMatch) {
     const id = previewMatch[1];
+    if (id.startsWith("replacement-")) return <ReplacementPreviewSite id={id} />;
     if (id.startsWith("wide-")) return <WideNetPreviewSite id={id} />;
     if (expandedPreviewIds.has(id)) return <ExpandedPreviewSite id={id} />;
     return <PreviewSite id={id} />;
