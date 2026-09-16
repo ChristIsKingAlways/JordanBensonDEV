@@ -10,9 +10,16 @@ import About from "./components/About/About.jsx";
 import Contact from "./components/Contact/Contact.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import EasterEggTooltip from "./components/EasterEggTooltip/EasterEggTooltip.jsx";
+import PreviewSite from "./components/PreviewSite/PreviewSite.jsx";
 import "./App.css";
 
 function App() {
+  const previewMatch = window.location.pathname.match(/^\/preview\/([^/]+)\/?$/);
+
+  if (previewMatch) {
+    return <PreviewSite id={previewMatch[1]} />;
+  }
+
   return (
     <div className="app">
       <ParticleField />
