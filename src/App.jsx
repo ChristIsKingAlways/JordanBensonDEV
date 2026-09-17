@@ -17,6 +17,7 @@ import WideNetPreviewSite from "./components/PreviewSite/WideNetPreviewSite.jsx"
 import ReplacementPreviewSite from "./components/PreviewSite/ReplacementPreviewSite.jsx";
 import ExtraReplacementPreviewSite from "./components/PreviewSite/ExtraReplacementPreviewSite.jsx";
 import DuralConcretePreviewSite from "./components/PreviewSite/DuralConcretePreviewSite.jsx";
+import CentralColoradoConcretePreviewSite from "./components/PreviewSite/CentralColoradoConcretePreviewSite.jsx";
 import "./App.css";
 
 const expandedPreviewIds = new Set([
@@ -33,6 +34,7 @@ function App() {
     const id = previewMatch[1];
     if (id === "wide-valentine-plumbing" || id === "wide-kw-construction") return null;
     if (id === "replacement-dural-concrete") return <DuralConcretePreviewSite />;
+    if (id === "replacement-central-colorado-concrete") return <CentralColoradoConcretePreviewSite />;
     if (id === "replacement-mountain-view") return <ExtraReplacementPreviewSite />;
     if (id.startsWith("replacement-")) return <ReplacementPreviewSite id={id} />;
     if (id.startsWith("wide-")) return <WideNetPreviewSite id={id} />;
