@@ -31,7 +31,7 @@ function App() {
 
   if (previewMatch) {
     const id = previewMatch[1];
-    if (id === "wide-valentine-plumbing") return null;
+    if (id === "wide-valentine-plumbing" || id === "wide-kw-construction") return null;
     if (id === "replacement-dural-concrete") return <DuralConcretePreviewSite />;
     if (id === "replacement-mountain-view") return <ExtraReplacementPreviewSite />;
     if (id.startsWith("replacement-")) return <ReplacementPreviewSite id={id} />;
